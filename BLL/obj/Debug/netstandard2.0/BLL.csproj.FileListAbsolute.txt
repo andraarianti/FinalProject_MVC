@@ -1,0 +1,15 @@
+D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\bin\Debug\netstandard2.0\BLL.deps.json
+D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\bin\Debug\netstandard2.0\BLL.dll
+D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\bin\Debug\netstandard2.0\BLL.pdb
+D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\bin\Debug\netstandard2.0\BO.dll
+D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\bin\Debug\netstandard2.0\DAL.dll
+D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\bin\Debug\netstandard2.0\BO.pdb
+D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\bin\Debug\netstandard2.0\DAL.pdb
+D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\obj\Debug\netstandard2.0\BLL.csproj.AssemblyReference.cache
+D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\obj\Debug\netstandard2.0\BLL.GeneratedMSBuildEditorConfig.editorconfig
+D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\obj\Debug\netstandard2.0\BLL.AssemblyInfoInputs.cache
+D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\obj\Debug\netstandard2.0\BLL.AssemblyInfo.cs
+D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\obj\Debug\netstandard2.0\BLL.csproj.CoreCompileInputs.cache
+D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\obj\Debug\netstandard2.0\BLL.csproj.Up2Date
+D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\obj\Debug\netstandard2.0\BLL.dll
+D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\obj\Debug\netstandard2.0\BLL.pdb

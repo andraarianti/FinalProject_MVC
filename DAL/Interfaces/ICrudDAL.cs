@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace DAL.Interfaces
+{
+    public interface ICrudDAL<T>
+    {
+        IEnumerable<T> GetAll();
+        T GetById (int id);
+        void Insert(T obj);
+        void Update(T obj);
+        void Delete(int id);
+
+    }
+}

@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "bJ5c8VgEhxCS7NaqWF8XKegm2aeJNohkV9F+pvYcUbziVPf8pv73wIwjQvdKnEwgV2jeSDNX6Tpvn43fi9qL0g==",
+  "success": true,
+  "projectFilePath": "D:\\Users\\bsi80214\\source\\repos\\BusinessTripExpense\\Interfaces\\Interfaces.csproj",
+  "expectedPackageFiles": [
+    "D:\\Users\\bsi80214\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "D:\\Users\\bsi80214\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,13 @@
+D:\Users\bsi80214\source\repos\BusinessTripExpense\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+D:\Users\bsi80214\source\repos\BusinessTripExpense\DAL\bin\Debug\netstandard2.0\DAL.dll
+D:\Users\bsi80214\source\repos\BusinessTripExpense\DAL\bin\Debug\netstandard2.0\DAL.pdb
+D:\Users\bsi80214\source\repos\BusinessTripExpense\DAL\bin\Debug\netstandard2.0\BO.dll
+D:\Users\bsi80214\source\repos\BusinessTripExpense\DAL\bin\Debug\netstandard2.0\BO.pdb
+D:\Users\bsi80214\source\repos\BusinessTripExpense\DAL\obj\Debug\netstandard2.0\DAL.csproj.AssemblyReference.cache
+D:\Users\bsi80214\source\repos\BusinessTripExpense\DAL\obj\Debug\netstandard2.0\DAL.GeneratedMSBuildEditorConfig.editorconfig
+D:\Users\bsi80214\source\repos\BusinessTripExpense\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+D:\Users\bsi80214\source\repos\BusinessTripExpense\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+D:\Users\bsi80214\source\repos\BusinessTripExpense\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+D:\Users\bsi80214\source\repos\BusinessTripExpense\DAL\obj\Debug\netstandard2.0\DAL.csproj.Up2Date
+D:\Users\bsi80214\source\repos\BusinessTripExpense\DAL\obj\Debug\netstandard2.0\DAL.dll
+D:\Users\bsi80214\source\repos\BusinessTripExpense\DAL\obj\Debug\netstandard2.0\DAL.pdb
