@@ -8,8 +8,7 @@
         </div>
         <div class="card-body">
             <asp:Literal ID="ltMessage" runat="server" />
-            <br />
-            <br />
+
             <div class="table-responsive">
                 <asp:ListView ID="lvTrip" runat="server" DataKeyNames="TripID" OnItemCommand="lvTrip_ItemCommand">
                     <LayoutTemplate>

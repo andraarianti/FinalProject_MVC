@@ -17,15 +17,16 @@ Public Class ApprovalPage
             'Login Check
             If Session("LoggedInUser") Is Nothing Then
                 Response.Redirect("~/LoginPage.aspx")
-            End If
-
-            'Role Check from Session
-            Dim loggedInUser As StaffDTO = DirectCast(Session("LoggedInUser"), StaffDTO)
-
-            If loggedInUser.Role = "Admin" And loggedInUser.Role = "Approver" Then
-                LoadData()
             Else
-                Response.Redirect("~/TripReport.aspx")
+                'Role Check from Session
+                Dim loggedInUser As StaffDTO = DirectCast(Session("LoggedInUser"), StaffDTO)
+                Dim role As String = loggedInUser.Role
+
+                If role = "Admin" Or role = "Approver" Then
+                    LoadData()
+                Else
+                    Response.Redirect("~/TripReport.aspx")
+                End If
             End If
         End If
     End Sub

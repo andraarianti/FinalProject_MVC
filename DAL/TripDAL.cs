@@ -20,21 +20,17 @@ namespace DAL
         }
         public void Delete(int id)
         {
-            using(SqlConnection conn = new SqlConnection(GetConnectionString()))
+            using (SqlConnection conn = new SqlConnection(GetConnectionString()))
             {
-                var strSql = "UPDATE BusinessTravel.Trip SET IsDeleted = 1 WHERE TripID = @TripID";
-                var param = new { TripID = id };
+                var strSql = "BusinessTravel.DeleteTripReport";
+                var param = new { TripId = id };
                 try
                 {
-                    conn.Execute(strSql, param);
-                }
-                catch (SqlException sqlEx)
-                {
-                    throw new ArgumentException($"{sqlEx.InnerException.Message} - {sqlEx.Number}");
+                    conn.Execute(strSql, param, commandType: CommandType.StoredProcedure);
                 }
                 catch (Exception ex)
                 {
-                    throw new ArgumentException("Kesalahan: " + ex.Message);
+                    throw new Exception("Error DeleteTrip DAL: " + ex.Message);
                 }
             }
         }
@@ -43,7 +39,7 @@ namespace DAL
         {
             using (SqlConnection conn = new SqlConnection(GetConnectionString()))
             {
-                var strSql = "SELECT t.*, s.StatusName, st.Name FROM BusinessTravel.Trip AS t JOIN BusinessTravel.Status As s ON t.StatusID = s.StatusID JOIN BusinessTravel.Staff As st ON t.SubmittedBy = st.StaffID";
+                var strSql = "SELECT t.*, s.StatusName, st.Name FROM BusinessTravel.Trip AS t JOIN BusinessTravel.Status As s ON t.StatusID = s.StatusID JOIN BusinessTravel.Staff As st ON t.SubmittedBy = st.StaffID WHERE t.IsDeleted = 0";
                 try
                 {
                     List<Trip> trips = new List<Trip>();
@@ -133,6 +129,7 @@ namespace DAL
                                 ReceiptImage = dr["ReceiptImage"].ToString(),
                                 LastModified = Convert.ToDateTime(dr["LastModified"]),
                                 IsDeleted = Convert.ToBoolean(dr["IsDeleted"]),
+                                IsApproved = Convert.ToBoolean(dr["IsApproved"]),
                                 Trip = new Trip()
                                 {
                                     TripID = Convert.ToInt32(dr["TripID"]),
@@ -181,104 +178,49 @@ namespace DAL
             using (SqlConnection conn = new SqlConnection(GetConnectionString()))
             {
                 conn.Open();
-                var transaction = conn.BeginTransaction();
 
                 try
                 {
-                   
                     // Insert into Trip Table using SP
-                    using (SqlCommand cmdTrip = new SqlCommand("BusinessTravel.AddTripReport", conn, transaction))
+                    using (SqlCommand cmdTrip = new SqlCommand("BusinessTravel.AddTripReport", conn))
                     {
                         cmdTrip.CommandType = CommandType.StoredProcedure;
 
-                        // Add parameters for the SP
+                        var table = new DataTable();
+                        table.Columns.Add("ExpenseType", typeof(string));
+                        table.Columns.Add("ItemCost", typeof(decimal));
+                        table.Columns.Add("Description", typeof(string));
+                        table.Columns.Add("ReceiptImage", typeof(string));
+
+                        foreach (var expense in expenses)
+                        {
+                            table.Rows.Add(expense.ExpenseType, expense.ItemCost, expense.Description, expense.ReceiptImage);
+                        }
+
+                        SqlParameter parameter = cmdTrip.Parameters.AddWithValue("@ExpenseItems", table);
+                        parameter.SqlDbType = SqlDbType.Structured;
+
+                        // Add other parameters as needed
                         cmdTrip.Parameters.AddWithValue("@SubmittedBy", trip.SubmittedBy);
+                        cmdTrip.Parameters.AddWithValue("@Location", trip.Location);
                         cmdTrip.Parameters.AddWithValue("@StartDate", trip.StartDate);
                         cmdTrip.Parameters.AddWithValue("@EndDate", trip.EndDate);
-                        cmdTrip.Parameters.AddWithValue("@Location", trip.Location);
-                        cmdTrip.Parameters.AddWithValue("@StatusId", trip.StatusID);
-                        cmdTrip.Parameters.AddWithValue("@ExpenseItems", ConvertToDataTable(expenses, "ExpenseItems"));
+                        cmdTrip.Parameters.AddWithValue("@StatusID", trip.StatusID);
 
-                        // Execute the SP and retrieve the TripID
-                        using (SqlDataReader reader = cmdTrip.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                trip.TripID = reader.GetInt32(0);
-                            }
-                            else
-                            {
-                                throw new Exception("Failed to retrieve TripID after inserting into Trip table.");
-                            }
-                        }
+                        cmdTrip.ExecuteNonQuery();
                     }
-
-                    // Insert into Expense Table using SP
-                    foreach (var expense in expenses)
-                    {
-                        using (SqlCommand cmdExpense = new SqlCommand("BusinessTravel.AddExpense", conn, transaction))
-                        {
-                            cmdExpense.CommandType = CommandType.StoredProcedure;
-
-                            // Add parameters for the SP
-                            cmdExpense.Parameters.AddWithValue("@ExpenseType", expense.ExpenseType);
-                            cmdExpense.Parameters.AddWithValue("@ItemCost", expense.ItemCost);
-                            cmdExpense.Parameters.AddWithValue("@Description", expense.Description);
-                            cmdExpense.Parameters.AddWithValue("@ReceiptImage", expense.ReceiptImage);
-
-                            // Execute the SP
-                            cmdExpense.ExecuteNonQuery();
-                        }
-                    }
-
-                    // Commit the transaction
-                    transaction.Commit();
                 }
                 catch (SqlException sqlEx)
                 {
-                    transaction.Rollback();
+                    // Handle exceptions if needed
                     throw new ArgumentException($"{sqlEx.InnerException.Message} - {sqlEx.Number}");
                 }
                 catch (Exception ex)
                 {
-                    transaction.Rollback();
+                    // Handle exceptions if needed
                     throw new ArgumentException("Kesalahan: " + ex.Message + "-" + ex.Source);
                 }
             }
-        }
-
-
-        private DataTable ConvertToDataTable<T>(IEnumerable<T> data, string tableName)
-        {
-            var table = new DataTable(tableName);
-            var properties = typeof(T).GetProperties();
-
-            foreach (var property in properties)
-            {
-                table.Columns.Add(property.Name, Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType);
-            }
-
-            foreach (var item in data)
-            {
-                var row = table.NewRow();
-                foreach (var property in properties)
-                {
-                    var value = property.GetValue(item);
-
-                    if (value != null && value.GetType().IsClass && value.GetType() != typeof(string))
-                    {
-                        // If the property is a complex object, you may need to handle it separately or convert it to a string, for example.
-                        row[property.Name] = value.ToString();
-                    }
-                    else
-                    {
-                        row[property.Name] = value ?? DBNull.Value;
-                    }
-                }
-                table.Rows.Add(row);
-            }
-
-            return table;
         }
 
 
@@ -403,6 +345,43 @@ namespace DAL
                 {
                     throw new ArgumentException("Kesalahan: " + ex.Message);
                 }
+            }
+        }
+
+        public void SubmitApproval(int tripId, int statusId)
+        {
+            using (SqlConnection conn = new SqlConnection(GetConnectionString()))
+            {
+                var strSql = "UPDATE BusinessTravel.Trip SET StatusID = @StatusID WHERE TripID = @TripID";
+                var param = new { TripID = tripId, StatusID = statusId };
+                try
+                {
+                    conn.Execute(strSql, param);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error SubmitApproval DAL: " + ex.Message);
+                }
+            }
+        }
+
+        public IEnumerable<Trip> GetTripByUserId(int staffID)
+        {
+            using (SqlConnection conn = new SqlConnection(GetConnectionString()))
+            {
+                var strSql = @"SELECT t.TripID, t.*, s.StatusID, s.StatusName, st.StaffID, st.Name
+                                FROM BusinessTravel.Trip AS t
+                                JOIN BusinessTravel.Status AS s ON t.StatusID = s.StatusID
+                                JOIN BusinessTravel.Staff AS st ON t.SubmittedBy = st.StaffID
+                                WHERE t.SubmittedBy = @SubmittedBy AND t.IsDeleted = 0";
+                var param = new { SubmittedBy = staffID };
+                var result = conn.Query<Trip, Status, Staff, Trip>(strSql, (trip, status, staff) =>
+                {
+                    trip.Status = status;
+                    trip.Staff = staff;
+                    return trip;
+                }, param, splitOn: "StatusID, StaffID");
+                return result;
             }
         }
     }

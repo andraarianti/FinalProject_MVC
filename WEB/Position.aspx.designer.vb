@@ -57,4 +57,31 @@ Partial Public Class Position
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnSave As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''txtEditPositionID control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtEditPositionID As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''txtEditPositionName control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtEditPositionName As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''btnUpdatePosition control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnUpdatePosition As Global.System.Web.UI.WebControls.Button
 End Class

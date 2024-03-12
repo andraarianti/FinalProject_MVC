@@ -70,9 +70,22 @@ namespace DAL
             }
         }
 
-        public IEnumerable<Staff> GetByName(string name)
+        public IEnumerable<Staff> GetByName(string username)
         {
-            throw new NotImplementedException();
+            using(SqlConnection conn = new SqlConnection(GetConnectionString()))
+            {
+                var strSql = "SELECT * FROM BusinessTravel.Staff WHERE Username LIKE @Username AND IsDeleted = 0";
+                var param = new { Username = "%" + username + "%" };
+                try
+                {
+                    var result = conn.Query<Staff>(strSql, param);
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error GetStaffByName DAL: " + ex.Message);
+                }
+            }
         }
 
         public void Insert(Staff obj)

@@ -1,5 +1,6 @@
 ﻿Imports BLL
 Imports BLL.DTO
+Imports BLL.Interfaces
 
 Public Class TripReport
     Inherits System.Web.UI.Page
@@ -7,7 +8,16 @@ Public Class TripReport
     Dim tripBLL As New TripBLL()
 
     Public Sub LoadData()
-        Dim results = tripBLL.GetAllWithStatus()
+        Dim staffUsername As String = DirectCast(Session("LoggedInUser"), StaffDTO).Username
+        Dim _staffBLL As New StaffBLL()
+        'get the staff ID
+        Dim staff As List(Of StaffDTO) = _staffBLL.GetByName(staffUsername)
+        If staff.Count = 0 Then
+            Throw New Exception("Approver not found")
+        End If
+        Dim submittedBy As Integer = staff(0).StaffID
+
+        Dim results = tripBLL.GetTripByUserId(submittedBy)
         lvTrip.DataSource = results
         lvTrip.DataBind()
     End Sub
@@ -28,12 +38,10 @@ Public Class TripReport
 
     Protected Sub lvTrip_ItemDeleting(sender As Object, e As ListViewDeleteEventArgs)
         Try
-            Dim tripBll As New TripBLL()
-            Dim trip As New ReadTripDTO
-
             Dim tripID As Integer = Convert.ToInt32(lvTrip.DataKeys(e.ItemIndex).Value)
-            tripBll.DeleteTrip(tripID)
+            tripBLL.DeleteTrip(tripID)
             LoadData()
+            ltMessage.Text = "<span class='alert alert-success'>Trip Successfully Deleted</span><br/><br/>"
         Catch ex As Exception
             ltMessage.Text = "<span class='alert alert-danger'>Error: " & ex.Message & "</span><br/><br/>"
         End Try

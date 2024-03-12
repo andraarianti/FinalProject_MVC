@@ -102,4 +102,22 @@ Partial Public Class ApprovalPageDetail
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lvExpenseItems As Global.System.Web.UI.WebControls.ListView
+
+    '''<summary>
+    '''btnSubmitApproval control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnSubmitApproval As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''lnkBack control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lnkBack As Global.System.Web.UI.WebControls.LinkButton
 End Class

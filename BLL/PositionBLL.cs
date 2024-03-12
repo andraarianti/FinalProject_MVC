@@ -105,6 +105,7 @@ namespace BLL
                     PositionID = obj.PositionID,
                     PositionName = obj.PositionName
                 };
+                _positionDAL.Update(position);
             }
             catch (Exception ex)
             {

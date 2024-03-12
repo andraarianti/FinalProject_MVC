@@ -21,7 +21,8 @@ Public Class LoginPage
             If _staffDto IsNot Nothing Then
                 'Save the user in session
                 Session("LoggedInUser") = _staffDto
-                Response.Redirect("Staff.aspx")
+                'Access the Staff profile data then save to Session
+                Response.Redirect("Default.aspx")
             Else
                 ltMessage.Text = "<span class='alert alert-danger'>Invalid username or password</span>"
             End If

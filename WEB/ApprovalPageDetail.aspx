@@ -66,15 +66,17 @@
                         </div>
                         <table class="table table-borderless table-responsive" width="100%" cellspacing="0">
                             <!-- ... (Table List View) -->
-                            <asp:ListView ID="lvExpenseItems" runat="server" DataKeyNames="ExpenseID">
+                            <asp:ListView ID="lvExpenseItems" runat="server" DataKeyNames="ExpenseID" OnItemCommand="lvExpenseItems_ItemCommand" OnItemDataBound="lvExpenseItems_ItemDataBound">
                                 <LayoutTemplate>
                                     <table class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
+                                                <th>ID</th>
                                                 <th>Type</th>
                                                 <th>Cost</th>
                                                 <th>Description</th>
                                                 <th>Receipt</th>
+                                                <th>Status</th>
                                                 <th>Approval</th>
                                             </tr>
                                         </thead>
@@ -83,6 +85,7 @@
                                 </LayoutTemplate>
                                 <ItemTemplate>
                                     <tr>
+                                        <td><%# Eval("ExpenseID") %></td>
                                         <td><%# Eval("ExpenseType") %></td>
                                         <td><%# Eval("ItemCost", "{0:C}") %></td>
                                         <td><%# Eval("Description") %></td>
@@ -90,21 +93,33 @@
                                             <asp:Image ImageUrl='<%# ResolveUrl("~/ReceiptImages/") + Eval("ReceiptImage") %>' runat="server" Width="100" CssClass="img-thumbnail" />
                                         </td>
                                         <td>
+                                            <%# If(Convert.ToBoolean(Eval("IsApproved")), "Approved", "Rejected") %>
+                                        </td>
+                                        <td>
                                             <asp:LinkButton ID="lnkApprove" Text="Approve" CssClass="btn btn-outline-success btn-sm"
                                                 CommandName="Approve" CommandArgument='<%# Eval("ExpenseID") %>'
-                                                OnClientClick="return confirm('Apakah anda yakin untuk approve data ?')" runat="server" />
+                                                OnClientClick="return confirm('Apakah anda yakin untuk approve data ?')"
+                                                Visible='<%# Eval("IsApproved").ToString().ToLower() = "false" %>' runat="server" />
+
                                             <asp:LinkButton ID="lnkReject" Text="Reject" CssClass="btn btn-outline-danger btn-sm"
                                                 CommandName="Reject" CommandArgument='<%# Eval("ExpenseID") %>'
-                                                OnClientClick="return confirm('Apakah anda yakin untuk reject data ?')" runat="server" />
+                                                OnClientClick="return confirm('Apakah anda yakin untuk reject data ?')"
+                                                Visible='<%# Eval("IsApproved").ToString().ToLower() = "true" %>' runat="server" />
                                         </td>
                                     </tr>
                                 </ItemTemplate>
                             </asp:ListView>
                         </table>
                     </div>
-                </div>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-end">
+                            <asp:Button runat="server" ID="btnSubmitApproval" Text="Submit Approval" CssClass="btn btn-success mr-2" OnClick="btnSubmitApproval_Click" />
+                            <asp:LinkButton runat="server" ID="lnkBack" CssClass="btn btn-outline-success" Text="Back" OnClick="lnkBack_Click" />
+                        </div>
+                    </div>
 
+
+                </div>
             </div>
         </div>
-    </div>
 </asp:Content>

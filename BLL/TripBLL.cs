@@ -86,6 +86,7 @@ namespace BLL
                     ItemCost = expense.ItemCost,
                     Description = expense.Description,
                     ReceiptImage = expense.ReceiptImage,
+                    IsApproved = expense.IsApproved,
                 });
             }
 
@@ -118,12 +119,6 @@ namespace BLL
                 TotalCost = tripReport.TotalCost,
                 StatusID = tripReport.StatusID,
             };
-
-            //var tripAttendees = new TripAttendees()
-            //{
-            //    TripID = attendees.TripID,
-            //    StaffID = attendees.StaffID,
-            //};
 
             var expenseItems = new List<Expense>();
 
@@ -248,6 +243,56 @@ namespace BLL
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public void SubmitApproval(int id, int statusId)
+        {
+            try
+            {
+                _tripDAL.SubmitApproval(id, statusId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public IEnumerable<ITripBLL> GetAllByStaffId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<ReadTripDTO> GetTripByUserId(int id)
+        {
+            List<ReadTripDTO> readTripDTOs = new List<ReadTripDTO>();
+            var expenseList = _tripDAL.GetTripByUserId(id);
+
+            foreach (var expense in expenseList)
+            {
+                readTripDTOs.Add(new ReadTripDTO
+                {
+                    TripID = expense.TripID,
+                    SubmittedBy = expense.SubmittedBy,
+                    Location = expense.Location,
+                    StartDate = expense.StartDate.Date,
+                    EndDate = expense.EndDate.Date,
+                    TotalCost = expense.TotalCost,
+                    StatusID = expense.StatusID,
+                    Status = new StatusDTO
+                    {
+                        StatusID = expense.Status.StatusID,
+                        StatusName = expense.Status.StatusName
+                    },
+                    Staff = new StaffDTO
+                    {
+                        StaffID = expense.Staff.StaffID,
+                        Name = expense.Staff.Name,
+                    }
+
+                });
+            }
+
+            return readTripDTOs;
         }
     }
 }

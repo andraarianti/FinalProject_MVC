@@ -226,6 +226,24 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:WEB.ApprovalPageDetail._btnSubmitApproval">
+<summary>
+btnSubmitApproval control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:WEB.ApprovalPageDetail._lnkBack">
+<summary>
+lnkBack control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:WEB.Position._ltMessage">
 <summary>
 ltMessage control.
@@ -265,6 +283,33 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:WEB.Position._btnSave">
 <summary>
 btnSave control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:WEB.Position._txtEditPositionID">
+<summary>
+txtEditPositionID control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:WEB.Position._txtEditPositionName">
+<summary>
+txtEditPositionName control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:WEB.Position._btnUpdatePosition">
+<summary>
+btnUpdatePosition control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -433,6 +478,15 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:WEB._Default._ltlWelcome">
+<summary>
+ltlWelcome control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:WEB.LoginPage._form1">
 <summary>
 form1 control.
@@ -472,6 +526,15 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:WEB.LoginPage._ltMessage">
 <summary>
 ltMessage control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:WEB.SiteMaster._ltDynamicMenu">
+<summary>
+ltDynamicMenu control.
 </summary>
 <remarks>
 Auto-generated field.

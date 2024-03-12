@@ -78,9 +78,33 @@ namespace BLL
             return staffDTO;
         }
 
-        public IEnumerable<StaffDTO> GetByName(string name)
+        public IEnumerable<StaffDTO> GetByName(string username)
         {
-            throw new NotImplementedException();
+            try
+            {
+                List<StaffDTO> listStaffDto = new List<StaffDTO>();
+                var staffList = _staffDAL.GetByName(username);
+                foreach (var staff in staffList)
+                {
+                    listStaffDto.Add(new StaffDTO
+                    {
+                        StaffID = staff.StaffID,
+                        Name = staff.Name,
+                        PositionID = staff.PositionID,
+                        Role = staff.Role,
+                        LastModified = staff.LastModified,
+                        IsDeleted = staff.IsDeleted,
+                        Username = staff.Username,
+                        Password = staff.Password,
+                        Email = staff.Email
+                    });
+                }
+                return listStaffDto;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error GetByName BLL: " + ex.Message);
+            }
         }
 
         public void Insert(StaffDTO obj)

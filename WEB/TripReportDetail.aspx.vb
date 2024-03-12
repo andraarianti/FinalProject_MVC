@@ -24,16 +24,31 @@ Public Class WebForm1
         lblTotalExpense.Text = _trips.TotalCost
 
         'Check the Status of the trip
-        If String.Equals(_trips.Status.StatusName, "Drafted/Planned", StringComparison.OrdinalIgnoreCase) Then
+        If _trips.Status.StatusID = 1 Then
             btnAddExpenseItem.Visible = True
-            btnAddExpenseItem.Enabled = True
             btnReimbursement.Visible = True
-            btnReimbursement.Enabled = True
+
+            For Each item As ListViewItem In lvExpenseItems.Items
+                Dim lnkEdit As LinkButton = CType(item.FindControl("lnkEdit"), LinkButton)
+                Dim lnkDelete As LinkButton = CType(item.FindControl("lnkDelete"), LinkButton)
+                If lnkEdit IsNot Nothing AndAlso lnkDelete IsNot Nothing Then
+                    lnkEdit.Visible = True
+                    lnkDelete.Visible = True
+                End If
+            Next
+
         Else
             btnAddExpenseItem.Visible = False
-            btnAddExpenseItem.Enabled = False
             btnReimbursement.Visible = False
-            btnReimbursement.Enabled = False
+
+            For Each item As ListViewItem In lvExpenseItems.Items
+                Dim lnkEdit As LinkButton = CType(item.FindControl("lnkEdit"), LinkButton)
+                Dim lnkDelete As LinkButton = CType(item.FindControl("lnkDelete"), LinkButton)
+                If lnkEdit IsNot Nothing AndAlso lnkDelete IsNot Nothing Then
+                    lnkEdit.Visible = False
+                    lnkDelete.Visible = False
+                End If
+            Next
         End If
     End Sub
 

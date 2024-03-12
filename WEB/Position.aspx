@@ -11,11 +11,11 @@
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPositionModal">
                     Add
                 </button>
-               <asp:Literal ID="ltMessage" runat="server" />
+                <asp:Literal ID="ltMessage" runat="server" />
                 <br />
                 <br />
                 <asp:ListView ID="lvPosition" runat="server" DataKeyNames="PositionID" OnSelectedIndexChanged="lvPosition_SelectedIndexChanged"
-                    OnSelectedIndexChanging="lvPosition_SelectedIndexChanging" OnItemDeleting="lvPosition_ItemDeleting">
+                    OnSelectedIndexChanging="lvPosition_SelectedIndexChanging" OnItemDeleting="lvPosition_ItemDeleting" OnItemCommand="lvPosition_ItemCommand">
                     <LayoutTemplate>
                         <table class="table table-hover table-bordered">
                             <thead>
@@ -36,7 +36,7 @@
                             <td><%# Eval("PositionName") %></td>
                             <td>
                                 <asp:LinkButton ID="lnkEdit" Text="Edit" CssClass="btn btn-outline-warning btn-sm"
-                                    CommandName="Select" runat="server" />
+                                    CommandName="Select" CommandArgument="Edit" runat="server" />
                                 &nbsp;
                                 <asp:LinkButton ID="lnkDelete" Text="Delete" CssClass="btn btn-outline-danger btn-sm"
                                     CommandName="Delete" runat="server" />
@@ -71,6 +71,39 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <asp:Button ID="btnSave" Text="Save" runat="server" class="btn btn-primary" OnClick="btnSave_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Edit Position -->
+    <div class="modal fade" id="editPositionModal" tabindex="-1" role="dialog" aria-labelledby="editPositionModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editPositionModalLabel">Edit Position Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Your Edit Form Goes Here -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="txtEditPositionName">Position ID :</label>
+                            <asp:TextBox runat="server" ID="txtEditPositionID" CssClass="form-control" ReadOnly />
+                        </div>
+                        <div class="form-group">
+                            <label for="txtEditPositionName">Position Name:</label>
+                            <asp:TextBox runat="server" ID="txtEditPositionName" CssClass="form-control" />
+                        </div>
+                    </div>
+
+                    <!-- Add other fields as needed -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <asp:Button runat="server" ID="btnUpdatePosition" Text="Save Changes" CssClass="btn btn-primary" OnClick="btnUpdatePosition_Click" />
                 </div>
             </div>
         </div>

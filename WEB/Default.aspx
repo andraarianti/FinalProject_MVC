@@ -3,39 +3,43 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
     <main>
-        <section class="row" aria-labelledby="aspnetTitle">
-            <h1 id="aspnetTitle">ASP.NET</h1>
-            <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-            <p><a href="http://www.asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
+        <section>
+            <asp:Literal ID="ltlWelcome" runat="server"></asp:Literal>
+        </section>
+        <hr />
+        <section class="row" aria-labelledby="appTitle">
+            <h1 id="appTitle">Business Trip Expense</h1>
+            <p class="lead">Manage your business trip expenses efficiently with our application. Submit, track, and approve expenses seamlessly.</p>
         </section>
 
+        <a href="#" class="btn btn-primary btn-md">Get Started &raquo;</a>
+        <hr />
         <div class="row">
-            <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-                <h2 id="gettingStartedTitle">Getting started</h2>
+            <section class="col-md-4" aria-labelledby="submitExpenseTitle">
+                <h2 id="submitExpenseTitle">Submit Expenses</h2>
                 <p>
-                    ASP.NET Web Forms lets you build dynamic websites using a familiar drag-and-drop, event-driven model.
-                A design surface and hundreds of controls and components let you rapidly build sophisticated, powerful UI-driven sites with data access.
+                    Easily submit your business trip expenses with our user-friendly interface. Capture receipts and provide necessary details for quick approval.
                 </p>
                 <p>
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301948">Learn more &raquo;</a>
-                </p>
-            </section>
-            <section class="col-md-4" aria-labelledby="librariesTitle">
-                <h2 id="librariesTitle">Get more libraries</h2>
-                <p>
-                    NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.
-                </p>
-                <p>
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301949">Learn more &raquo;</a>
+                    <a class="btn btn-default" href="#">Learn more &raquo;</a>
                 </p>
             </section>
-            <section class="col-md-4" aria-labelledby="hostingTitle">
-                <h2 id="hostingTitle">Web Hosting</h2>
+            <section class="col-md-4" aria-labelledby="trackExpenseTitle">
+                <h2 id="trackExpenseTitle">Track Expenses</h2>
                 <p>
-                    You can easily find a web hosting company that offers the right mix of features and price for your applications.
+                    Track the status of your submitted expenses in real-time. Stay informed about the approval process and get updates on your reimbursement.
                 </p>
                 <p>
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301950">Learn more &raquo;</a>
+                    <a class="btn btn-default" href="#">Learn more &raquo;</a>
+                </p>
+            </section>
+            <section class="col-md-4" aria-labelledby="approveExpenseTitle">
+                <h2 id="approveExpenseTitle">Approve Expenses</h2>
+                <p>
+                    Approvers can efficiently review and approve business trip expenses. Streamline the approval workflow and ensure timely processing.
+                </p>
+                <p>
+                    <a class="btn btn-default" href="#">Learn more &raquo;</a>
                 </p>
             </section>
         </div>

@@ -33,11 +33,6 @@ Public Class AddTripReport
         ddlSubmittedBy.DataTextField = "Name"
         ddlSubmittedBy.DataValueField = "StaffID"
         ddlSubmittedBy.DataBind()
-        'For Attendees
-        'ddlAttendees.DataSource = staff
-        'ddlAttendees.DataTextField = "Name"
-        'ddlAttendees.DataValueField = "StaffID"
-        'ddlAttendees.DataBind()
     End Sub
 
     Function CheckFileType(ByVal fileName As String) As Boolean
@@ -63,26 +58,15 @@ Public Class AddTripReport
             'Bind data from TextBoxes to TripReportDTO
             Dim tripReport As New CreateTripReportDTO
 
-            'Check Session
-            'Dim loggedInUser As StaffDTO = TryCast(Session("LoggedInUser"), StaffDTO)
-            'If loggedInUser IsNot Nothing Then
-            '    TripReport.SubmittedBy = loggedInUser.StaffID
-            'End If
-
-            'tripReport.SubmittedBy = ddlAttendees.SelectedValue
+            tripReport.SubmittedBy = ddlSubmittedBy.SelectedValue
             tripReport.TripID = Convert.ToInt32(Request.QueryString("TripID"))
             tripReport.StartDate = Convert.ToDateTime(txtStartDate.Text)
             tripReport.EndDate = Convert.ToDateTime(txtEndDate.Text)
             tripReport.Location = txtLocation.Text
             tripReport.StatusID = 2 'InProgress
 
-            'Dim attendees As New TripAttendeesDTO
-            'attendees.TripID = Convert.ToInt32(Request.QueryString("TripID"))
-            'attendees.StaffID = Convert.ToInt32(ddlAttendees.SelectedValue)
-
             'Bind data from Table Expense
             Dim expenses As New List(Of ExpenseItemsDTO)
-
 
             For Each item As ListViewItem In lvExpenseItems.Items
                 Dim txtExpenseType As TextBox = DirectCast(item.FindControl("txtExpenseType"), TextBox)
@@ -110,6 +94,7 @@ Public Class AddTripReport
             Next
 
             'Add TripReport and Expense
+
             _tripBLL.CreateTrip(tripReport, expenses)
 
             ltMessage.Text = "<span class='alert alert-success'>Trip Report has been submitted</span><br/><br/>"
@@ -121,6 +106,54 @@ Public Class AddTripReport
     End Sub
 
     Protected Sub btnDraft_Click(sender As Object, e As EventArgs)
+        Try
+            'Bind data from TextBoxes to TripReportDTO
+            Dim tripReport As New CreateTripReportDTO
 
+            tripReport.SubmittedBy = ddlSubmittedBy.SelectedValue
+            tripReport.TripID = Convert.ToInt32(Request.QueryString("TripID"))
+            tripReport.StartDate = Convert.ToDateTime(txtStartDate.Text)
+            tripReport.EndDate = Convert.ToDateTime(txtEndDate.Text)
+            tripReport.Location = txtLocation.Text
+            tripReport.StatusID = 1 'Drafted
+
+            'Bind data from Table Expense
+            Dim expenses As New List(Of ExpenseItemsDTO)
+
+            For Each item As ListViewItem In lvExpenseItems.Items
+                Dim txtExpenseType As TextBox = DirectCast(item.FindControl("txtExpenseType"), TextBox)
+                Dim txtItemCost As TextBox = DirectCast(item.FindControl("txtItemCost"), TextBox)
+                Dim txtDescription As TextBox = DirectCast(item.FindControl("txtDescription"), TextBox)
+                Dim receiptImage As FileUpload = DirectCast(item.FindControl("fuReceiptImage"), FileUpload)
+
+                'Check if FileUpload has file
+                Dim fileName As String = Guid.NewGuid.ToString() & receiptImage.FileName
+                If receiptImage.HasFile Then
+                    If CheckFileType(fileName) Then
+                        receiptImage.SaveAs(Server.MapPath("~/ReceiptImages/") & fileName)
+                    Else
+                        ltMessage.Text = "<span class='alert alert-danger'>Error: Only images are allowed</span><br/><br/>"
+                    End If
+                End If
+
+                Dim expense As New ExpenseItemsDTO With {
+                    .ExpenseType = txtExpenseType.Text,
+                    .ItemCost = Convert.ToDecimal(txtItemCost.Text),
+                    .Description = txtDescription.Text,
+                    .ReceiptImage = fileName
+                }
+                expenses.Add(expense)
+            Next
+
+            'Add TripReport and Expense
+
+            _tripBLL.CreateTrip(tripReport, expenses)
+
+            ltMessage.Text = "<span class='alert alert-success'>Trip Report has been submitted</span><br/><br/>"
+            'Redirect to TripReport.aspx
+            Response.Redirect("TripReport.aspx")
+        Catch ex As Exception
+            ltMessage.Text = "<span class='alert alert-danger'>Error: " & ex.Message & "</span><br/><br/>"
+        End Try
     End Sub
 End Class

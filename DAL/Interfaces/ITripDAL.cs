@@ -6,7 +6,8 @@ using BO;
 namespace DAL.Interfaces
 {
     public interface ITripDAL : ICrudDAL<Trip>
-    {   
+    {
+        IEnumerable<Trip> GetTripByUserId(int staffID);
         IEnumerable<Trip> GetTripWithExpense(int TripID);
         IEnumerable<Trip> GetTripWithAttendees(int TripID);
         Expense GetExpensesById(int ExpenseID);
@@ -18,6 +19,7 @@ namespace DAL.Interfaces
         //Update Data
         void ClaimReimbusment(Trip trip);
         void UpdateExpense(Expense expense);
+        void SubmitApproval(int tripId, int statusId);
 
         //Delete Data
         void DeleteExpense(Expense expense);

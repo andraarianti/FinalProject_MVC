@@ -12,7 +12,7 @@
         <asp:Panel runat="server" ID="pnlGeneralInfo">
             <!-- General Trip Information -->
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="form-group">
                         <label for="txtSubmittedBy">Submitted By:</label>
                         <%-- Dropdown for submitted staff --%>
@@ -20,6 +20,8 @@
                             <asp:ListItem Text="-- Select Staff --" Value="" />
                         </asp:DropDownList>
                     </div>
+                </div>
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="txtStartDate">Start Date:</label>
                         <asp:TextBox runat="server" ID="txtStartDate" CssClass="form-control" TextMode="Date" Required="true"></asp:TextBox>
@@ -36,12 +38,6 @@
                 <label for="txtLocation">Location:</label>
                 <asp:TextBox runat="server" ID="txtLocation" CssClass="form-control" Required="true"></asp:TextBox>
             </div>
-            <%--<div class="form-group">
-                <label for="ddlAttendees">Business Trip Attendees :</label>
-                <asp:DropDownList runat="server" ID="ddlAttendees" CssClass="form-control" DataValueField="StaffID" AppendDataBoundItems="True">
-                    <asp:ListItem Text="-- Select Attendee --" Value="" />
-                </asp:DropDownList>
-            </div>--%>
         </asp:Panel>
         <hr />
         <!-- Expense Items Section -->

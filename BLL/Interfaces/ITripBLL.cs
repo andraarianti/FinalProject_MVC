@@ -10,6 +10,7 @@ namespace BLL.Interfaces
         //Get Data
         IEnumerable<ReadTripDTO> GetAllWithStatus();
         ReadTripDTO GetByIdTrip(int id);
+        IEnumerable<ReadTripDTO> GetTripByUserId(int id);
         IEnumerable<ReadTripDTO> GetTripWithExpense();
         List<ExpenseItemsDTO> GetTripWithExpenseByTripId(int id);
         IEnumerable<ReadTripDTO> GetTripWithAttendees();
@@ -23,6 +24,7 @@ namespace BLL.Interfaces
         //Update Data
         void ClaimReimbursmnt(CreateTripReportDTO createTripReportDTO);
         void UpdateExpense(ExpenseItemsDTO expenseItems);
+        void SubmitApproval(int id, int statusId);
 
         //Delete Data
         void DeleteTrip(int id);

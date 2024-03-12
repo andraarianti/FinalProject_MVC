@@ -102,7 +102,31 @@ namespace DAL
 
         public void Update(Position obj)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(GetConnectionString()))
+            {
+                var strSql = "UPDATE BusinessTravel.Position SET PositionName = @PositionName WHERE PositionID = @PositionID";
+                var param = new
+                {
+                    PositionID = obj.PositionID,
+                    PositionName = obj.PositionName
+                };
+                try
+                {
+                    int result = conn.Execute(strSql, param);
+                    if (result != 1)
+                    {
+                        throw new Exception("Error UpdatePosition DAL: " + result);
+                    }
+                }
+                catch (SqlException sqlEx)
+                {
+                    throw new ArgumentException($"{sqlEx.InnerException.Message} - {sqlEx.Number}");
+                }
+                catch (Exception ex)
+                {
+                    throw new ArgumentException(ex.Message);
+                }
+            }
         }
     }
 }

@@ -18,7 +18,6 @@ namespace BO
 
         public Status Status { get; set; }
         public Staff Staff { get; set; }
-        public TripAttendees Attendees { get; set; }
         public Expense ExpenseItems { get; set; }
 
     }

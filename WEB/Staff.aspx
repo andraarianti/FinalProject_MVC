@@ -115,7 +115,6 @@
                     <div class="form-group">
                         <label for="ddPosition">Position:</label>
                         <asp:DropDownList ID="ddPosition" runat="server" CssClass="form-control" AppendDataBoundItems="true"></asp:DropDownList>
-                        <asp:ListItem Selected="True">-- Select Position --</asp:ListItem>
                     </div>
                     <div class="form-group">
                         <label for="ddRole">Role:</label>
