@@ -1,0 +1,147 @@
+﻿@{
+	ViewBag.Title = "Trip Report Detail";
+	var status = Model.Trip.Status.StatusName;
+}
+@model MVC.ViewModels.ExpenseByTripViewModels
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="card mb-4">
+			<div class="card-body">
+				<div class="mb-3 d-flex justify-content-between">
+					<div>
+						<strong>ID TRIP : #TRP-2024-</strong>
+						<span id="lblTripID">@Model.Trip.TripID</span>
+						<span class="badge rounded-pill bg-info text-white" id="lblStatus">@Model.Trip.Status.StatusName</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group mb-2">
+							<strong>Location : </strong>
+							<span id="lblLocation">@Model.Trip.Location</span>
+						</div>
+						<div class="form-group mb-2">
+							<strong>Total Expense: </strong>
+							<span id="lblTotalExpense">@Model.Trip.TotalCost</span>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group mb-2">
+							<strong>Start Date : </strong>
+							<span id="lblStartDate">@Model.Trip.StartDate</span>
+						</div>
+						<div class="form-group mb-2">
+							<strong>End Date : </strong>
+							<span id="lblEndDate">@Model.Trip.EndDate</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card mb-4">
+			<div class="card-body">
+				<div>
+					<strong>Expense Items</strong>
+				</div>
+				<br />
+				@{
+					if (status == "Drafted/Planned")
+					{
+						<button type="button" class="btn btn-success" data-bs-toggle="modal"
+								data-bs-target="#addExpenseItems">
+							Add Expense Items
+						</button>
+					}
+				}
+				<hr />
+				<div class="table-responsive">
+					<table id="default_order" class="table border table-striped table-bordered text-nowrap"
+						   style="width:100%">
+						<thead>
+							<tr>
+								<th>Expense ID</th>
+								<th>Expense Type</th>
+								<th>Item Cost</th>
+								<th>Description</th>
+								<th>Receipt Image</th>
+								<th>Status</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							@{
+								@foreach (var expense in Model.Expenses)
+								{
+									<tr>
+										<td>@expense.ExpenseID</td>
+										<td>@expense.ExpenseType</td>
+										<td>@expense.ItemCost</td>
+										<td>@expense.Description</td>
+										<td>
+											<img src="~/ReceiptImages/@expense.ReceiptImage" width="60" />
+										</td>
+										<td>@expense.IsApproved</td>
+										<td>
+											@{
+												if (status == "Drafted/Planned")
+												{
+													<a href="#" class="btn btn-rounded btn-outline-warning btn-sm" onclick="editPosition('@expense.ExpenseID')">Edit</a>
+													<a asp-action="DeleteExpense" onclick="return confirm('Are you sure you want to delete this position ?')" asp-route-id="@expense.ExpenseID" class="btn btn-rounded btn-outline-danger btn-sm">Delete</a>
+												}
+											}
+										</td>
+									</tr>
+								}
+							}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+
+<div id="addExpenseItems" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title mt-0" id="addStaffModalLabel">Add Expense Items</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+
+			<div class="modal-body">
+				<form method="post" action="@Url.Action("CreateExpense", "Trip")" enctype="multipart/form-data">
+					<input type="hidden" name="TripID" value="@Model.Trip.TripID" />
+					<div class="mb-3">
+						<label for="txtExpenseType" class="form-label">Expense Type</label>
+						<input type="text" class="form-control" id="txtExpenseType" required placeholder="Enter your Expense Type" name="ExpenseType">
+					</div>
+
+					<div class="mb-3">
+						<label for="txtDescription" class="form-label">Description</label>
+						<input type="text" class="form-control" id="txtDescription" required placeholder="Enter your Desc" name="Description">
+					</div>
+
+					<div class="mb-3">
+						<label for="txtItemCost" class="form-label">Item Cost</label>
+						<input type="number" class="form-control" id="txtTotalCost" required placeholder="Enter your Cost" name="ItemCost">
+					</div>
+
+					<div class="mb-3">
+						<label for="imageInput" class="form-label">Upload Image</label>
+						<input type="file" class="form-control" id="imageInput" name="ReceiptImage">
+					</div>
+
+					<div class="text-center">
+						<button type="submit" class="btn btn-primary">Save</button>
+					</div>
+
+				</form>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -33,12 +33,10 @@ namespace BLL
                     StatusID = trip.StatusID,
                     Status = new StatusDTO
                     {
-                        StatusID = trip.Status.StatusID,
                         StatusName = trip.Status.StatusName
                     },
                     Staff = new StaffDTO
                     {
-                        StaffID = trip.Staff.StaffID,
                         Name = trip.Staff.Name,
                     }
                     

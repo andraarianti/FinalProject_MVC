@@ -13,7 +13,7 @@ namespace BLL
         public readonly IStaffDAL _staffDAL;
         public StaffBLL()
         {
-           _staffDAL = new StaffDAL();
+            _staffDAL = new StaffDAL();
         }
 
         public void Delete(int id)
@@ -25,7 +25,7 @@ namespace BLL
 
             try
             {
-                _staffDAL.Delete(id);   
+                _staffDAL.Delete(id);
             }
             catch (Exception ex)
             {
@@ -59,7 +59,7 @@ namespace BLL
         {
             StaffDTO staffDTO = new StaffDTO();
             var staff = _staffDAL.GetById(id);
-            if(staff != null)
+            if (staff != null)
             {
                 staffDTO.StaffID = staff.StaffID;
                 staffDTO.Name = staff.Name;
@@ -149,6 +149,7 @@ namespace BLL
                 }
                 StaffDTO staffDTO = new StaffDTO
                 {
+                    StaffID = result.StaffID,
                     Username = result.Username,
                     Password = result.Password,
                     Role = result.Role,
@@ -161,6 +162,47 @@ namespace BLL
             catch (Exception ex)
             {
                 throw new Exception("Error Login BLL: " + ex.Message);
+            }
+        }
+
+        public StaffDTO LoginMVC(LoginDTO loginDTO)
+        {
+            try
+            {
+                var result = _staffDAL.Login(loginDTO.Username, loginDTO.Password);
+                if (result == null)
+                {
+                    throw new ArgumentException("Username or Password is wrong");
+                }
+
+                var lstPositionDto = new List<PositionDTO>();
+                var position = result.Position;
+                foreach (var item in position)
+                {
+                    lstPositionDto.Add(new PositionDTO
+                    {
+                        PositionID = item.PositionID,
+                        PositionName = item.PositionName
+                    });
+                }
+
+                StaffDTO staffDTO = new StaffDTO
+                {
+                    StaffID = result.StaffID,
+                    Name = result.Name,
+                    PositionID = result.PositionID,
+                    Role = result.Role,
+                    Username = result.Username,
+                    Email = result.Email,
+                    Positions = lstPositionDto
+                };
+
+                return staffDTO;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error LoginMVC BLL: " + ex.Message);
             }
         }
 

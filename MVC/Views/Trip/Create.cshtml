@@ -1,0 +1,88 @@
+﻿
+<div class="container mt-5">
+	<h3 class="mb-4">
+		Add Trip Report</h2>
+
+		<form action="Create" method="post" enctype="multipart/form-data">
+			<!-- Trip Form -->
+			<div class="card">
+				<div class="card-header">
+					<h4>Trip Details</h4>
+				</div>
+				@Html.Raw(TempData["Message"])
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="ddlSubmittedBy">Submitted By:</label>
+								<select class="form-control" id="ddlSubmittedBy" name="SubmittedBy">
+									<option value="">----- Select Staff ----</option>
+									@foreach (var item in ViewBag.Staff)
+									{
+										<option value="@item.Value">@item.Text</option>
+									}
+								</select>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="txtStartDate">Start Date:</label>
+								<input type="date" class="form-control" id="txtStartDate" name="StartDate" />
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="txtEndDate">End Date:</label>
+								<input type="date" class="form-control" id="txtEndDate" name="EndDate" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="txtLocation">Location:</label>
+						<input type="text" class="form-control" id="txtLocation" name="Location" />
+					</div>
+				</div>
+			</div>
+			<hr />
+
+			<!-- Expense Items Section -->
+			<div class="card mt-4">
+				<div class="card-header">
+					<h4>Expense Items</h4>
+				</div>
+				<div class="card-body">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>Expense Type</th>
+								<th>Item Cost</th>
+								<th>Description</th>
+								<th>Receipt Image</th>
+							</tr>
+						</thead>
+						<tbody id="expenseItemsTableBody" runat="server">
+							<tr>
+								<td>
+									<input type="text" class="form-control" name="ExpenseType" />
+								</td>
+								<td>
+									<input type="number" class="form-control" name="ItemCost" />
+								</td>
+								<td>
+									<input type="text" class="form-control" name="Description" />
+								</td>
+								<td>
+									<input type="file" class="form-control" name="ReceiptImage" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="card-footer">
+					<!-- Submit Buttons -->
+					<button type="submit" class="btn btn-primary" name="submitButton" value="reimbursement">Submit for Reimbursement</button>
+					<button type="submit" class="btn btn-primary" name="submitButton" value="draft">Save as Draft</button>
+				</div>
+			</div>
+		</form>
+</div>

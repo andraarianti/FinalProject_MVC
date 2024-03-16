@@ -13,9 +13,10 @@ namespace DAL
     {
         private string GetConnectionString()
         {
-            //return @"Data Source=.\BSISqlExpress;Initial Catalog=TripExpense;Integrated Security=True;TrustServerCertificate=True;Trusted_Connection=True";
-            return ConfigurationManager.ConnectionStrings["MyDbConnectionString"].ConnectionString;
-        }
+			return Helper.GetConnectionString();
+			//return @"Data Source=.\BSISqlExpress;Initial Catalog=TripExpense;Integrated Security=True;TrustServerCertificate=True;Trusted_Connection=True";
+			//return ConfigurationManager.ConnectionStrings["MyDbConnectionString"].ConnectionString;
+		}
         public void Delete(int id)
         {
             using (SqlConnection conn = new SqlConnection(GetConnectionString()))

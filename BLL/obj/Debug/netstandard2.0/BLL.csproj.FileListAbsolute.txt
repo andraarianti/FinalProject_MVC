@@ -10,7 +10,7 @@ D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\obj\Debug\netstandard2.0\
 D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\obj\Debug\netstandard2.0\BLL.AssemblyInfoInputs.cache
 D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\obj\Debug\netstandard2.0\BLL.AssemblyInfo.cs
 D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\obj\Debug\netstandard2.0\BLL.csproj.CoreCompileInputs.cache
+D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\obj\Debug\netstandard2.0\BLL.sourcelink.json
 D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\obj\Debug\netstandard2.0\BLL.csproj.Up2Date
 D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\obj\Debug\netstandard2.0\BLL.dll
 D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\obj\Debug\netstandard2.0\BLL.pdb
-D:\Users\bsi80214\source\repos\BusinessTripExpense\BLL\obj\Debug\netstandard2.0\BLL.sourcelink.json

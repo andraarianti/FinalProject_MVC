@@ -19,6 +19,11 @@ namespace BLL.DTO
 
         public StaffDTO Staff { get; set; }
         public StatusDTO Status { get; set; }
-        public ExpenseItemsDTO ExpenseItems { get; set; }
+
+        //THIS FOR WEBFORM
+        //public ExpenseItemsDTO ExpenseItems { get; set; }
+
+        //THIS FOR MVC
+        public IEnumerable<ExpenseItemsDTO> ExpenseItems { get; set; }
     }
 }

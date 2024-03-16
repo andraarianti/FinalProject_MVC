@@ -17,5 +17,7 @@ namespace BLL.Interfaces
         //Login
         StaffDTO Login(string username, string password);
 
+        StaffDTO LoginMVC(LoginDTO loginDTO);
+
     }
 }

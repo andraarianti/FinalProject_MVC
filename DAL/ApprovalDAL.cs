@@ -14,7 +14,8 @@ namespace DAL
         private string GetConnectionString()
         {
             //return @"Data Source=.\BSISqlExpress;Initial Catalog=TripExpense;Integrated Security=True;TrustServerCertificate=True;Trusted_Connection=True";
-            return ConfigurationManager.ConnectionStrings["MyDbConnectionString"].ConnectionString;
+            //return ConfigurationManager.ConnectionStrings["MyDbConnectionString"].ConnectionString;
+            return Helper.GetConnectionString();
         }
 
         public void Delete(int id)

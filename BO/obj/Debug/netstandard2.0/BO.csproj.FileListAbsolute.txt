@@ -6,6 +6,6 @@ D:\Users\bsi80214\source\repos\BusinessTripExpense\BO\obj\Debug\netstandard2.0\B
 D:\Users\bsi80214\source\repos\BusinessTripExpense\BO\obj\Debug\netstandard2.0\BO.AssemblyInfoInputs.cache
 D:\Users\bsi80214\source\repos\BusinessTripExpense\BO\obj\Debug\netstandard2.0\BO.AssemblyInfo.cs
 D:\Users\bsi80214\source\repos\BusinessTripExpense\BO\obj\Debug\netstandard2.0\BO.csproj.CoreCompileInputs.cache
+D:\Users\bsi80214\source\repos\BusinessTripExpense\BO\obj\Debug\netstandard2.0\BO.sourcelink.json
 D:\Users\bsi80214\source\repos\BusinessTripExpense\BO\obj\Debug\netstandard2.0\BO.dll
 D:\Users\bsi80214\source\repos\BusinessTripExpense\BO\obj\Debug\netstandard2.0\BO.pdb
-D:\Users\bsi80214\source\repos\BusinessTripExpense\BO\obj\Debug\netstandard2.0\BO.sourcelink.json
