@@ -1,6 +1,42 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model IEnumerable<BLL.DTO.ReadTripDTO>
 
+<div class="container-fluid">
+	<div class="card">
+		<div class="card-header">
+			<h5 class="card-title fw-semibold">Approval Page</h5>
+		</div>
+		<div class="card-body">
+			<br />
+			<div class="table-responsive">
+				<table id="default_order" class="table border table-striped table-bordered text-nowrap"
+					   style="width:100%">
+					<thead>
+						<tr>
+							<th>Trip ID</th>
+							<th>Submitted By</th>
+							<th>Destination</th>
+							<th>Total Cost</th>
+							<th>Status</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var item in Model)
+						{
+							<tr>
+								<td>@item.TripID</td>
+								<td>@item.Staff.Name</td>
+								<td>@item.Location</td>
+								<td>@item.TotalCost</td>
+								<td>@item.Status.StatusName</td>
+								<td>
+									<a href="@Url.Action("Detail", new { TripID = item.TripID })" , class="btn btn-rounded btn-outline-success btn-sm">Details</a>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

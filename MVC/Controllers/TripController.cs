@@ -1,4 +1,5 @@
-﻿using BLL;
+﻿using System.Text.Json;
+using BLL;
 using BLL.DTO;
 using BLL.Interfaces;
 using BO;
@@ -24,7 +25,19 @@ namespace MVC.Controllers
 		{
 			try
 			{
-				var trip = _tripBLL.GetAllWithStatus();
+
+				//Check Session
+				if (HttpContext.Session.GetString("Staff") == null)
+				{
+					return RedirectToAction("Login", "Users");
+				}
+
+				//Get data staff from session
+				var staffDTO = JsonSerializer.Deserialize<StaffDTO>(HttpContext.Session.GetString("Staff"));
+				int staffID = staffDTO.StaffID;
+
+				//var trip = _tripBLL.GetAllWithStatus();
+				var trip = _tripBLL.GetTripByUserId(staffID);
 				return View(trip);
 			}
 			catch (Exception ex)
@@ -36,6 +49,7 @@ namespace MVC.Controllers
 
 		public IActionResult Detail(int TripID)
 		{
+			TempData["TripID"] = TripID;
 			try
 			{
 				ExpenseByTripViewModels expenseByTripViewModels = new ExpenseByTripViewModels();
@@ -148,7 +162,19 @@ namespace MVC.Controllers
 		public IActionResult Delete(int id)
 		{
 			_tripBLL.DeleteTrip(id);
+			TempData["Message"] = @"<div class='alert alert-success'><strong>Success!&nbsp;</strong>TripReport has been deleted successfully !</div>";
 			return RedirectToAction("Index");
+		}
+		
+		public IActionResult DeleteExpense(int id)
+		{
+			//Set Expense DTO
+			ExpenseItemsDTO expense = new ExpenseItemsDTO();
+			expense.ExpenseID = id;
+			expense.TripID = (int) TempData["TripID"];
+			_tripBLL.DeleteExpense(expense);
+			TempData["Message"] = @"<div class='alert alert-success'><strong>Success!&nbsp;</strong>Expense has been deleted successfully !</div>";
+			return RedirectToAction("Detail", new { TripID = expense.TripID });
 		}
 
 		public IActionResult CreateExpense(ExpenseItemsDTO expense, IFormFile ReceiptImage)

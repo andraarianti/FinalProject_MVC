@@ -3,7 +3,7 @@
 <div class="container-fluid">
 	<div class="card">
 		<div class="card-header">
-			<h5 class="card-title fw-semibold">Position Page</h5>
+			<h5 class="card-title fw-semibold">Trip Report Page</h5>
 		</div>
 		<div class="card-body">
 			<a asp-action="Create" class="btn btn-rounded btn-primary btn-md">Create New Trip Report</a>
@@ -41,7 +41,7 @@
 									@{
 										if (item.Status.StatusName == "Drafted/Planned")
 										{
-											<a asp-action="Delete" onclick="return confirm('Are you sure you want to delete this position ?')" asp-route-id="@item.TripID" class="btn btn-rounded btn-outline-danger btn-sm">Delete</a>
+											<a href="@Url.Action("Delete", "Trip", new {id = item.TripID})" onclick="return confirm('Are you sure you want to delete this position ?')" class="btn btn-rounded btn-outline-danger btn-sm">Delete</a>
 										}
 									}
 								</td>

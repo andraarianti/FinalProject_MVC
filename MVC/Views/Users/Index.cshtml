@@ -31,7 +31,9 @@
 						<td>@item.Role</td>
 						<td>@item.Email</td>
 						<td>
-							<button type="button" class="btn btn-primary btn-sm" onclick="openEditModal('@item.StaffID')">Edit</button>
+							<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editStaffModal" id="btnOpenEditStaffModal" data-staff-id="@item.StaffID">
+								Edit Staff
+							</button>
 							<a asp-action="Delete" onclick="return confirm('Are you sure you want to delete this position ?')" asp-route-id="@item.StaffID" class="btn btn-danger btn-sm">Delete</a>
 						</td>
 					</tr>
@@ -102,3 +104,87 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<!-- Edit Staff Modal -->
+<div id="editStaffModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title mt-0" id="editStaffModalLabel">Edit Staff</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form id="editStaffForm" method="post" action="/Users/Edit">
+					<div class="mb-3">
+						<label for="staffId" class="form-label">StaffID</label>
+						<input type="text" class="form-control" id="staffId" disabled name="StaffID">
+					</div>
+					<div class="mb-3">
+						<label for="txtEditName" class="form-label">Name</label>
+						<input type="text" class="form-control" id="txtEditName" required placeholder="Enter your Name" name="Name">
+					</div>
+					<div class="mb-3">
+						<label for="ddEditRole" class="form-label">Role</label>
+						<select class="form-select" id="ddEditRole" name="Role">
+							<option value="">-----Select Role----</option>
+							<option value="Admin">Admin</option>
+							<option value="Approver">Approver</option>
+							<option value="Requestor">Requestor</option>
+						</select>
+					</div>
+					<div class="mb-3">
+						<label for="ddEditPosition" class="form-label">Position</label>
+						<select class="form-select" id="ddEditPosition" name="PositionID">
+							<option value="">-----Select Position----</option>
+							@foreach (var item in ViewBag.Positions)
+							{
+								<option value="@item.Value">@item.Text</option>
+							}
+						</select>
+					</div>
+					<div class="mb-3">
+						<label for="txtEditEmail" class="form-label">Email address</label>
+						<input type="email" class="form-control" id="txtEditEmail" required placeholder="Enter your Email Address" name="Email">
+					</div>
+					<div class="mb-3">
+						<label for="txtEditUsername" class="form-label">Username</label>
+						<input type="text" class="form-control" id="txtEditUsername" required placeholder="Enter your Username" name="Username">
+					</div>
+					<div class="text-center">
+						<input type="hidden" id="editStaffId" name="StaffId">
+						<button type="submit" class="btn btn-primary">Save</button>
+					</div>
+				</form>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+	$(document).ready(function () {
+		$('#editStaffModal').on('show.bs.modal', function (event) {
+			var button = $(event.relatedTarget); // Button that triggered the modal
+			var staffId = button.data('staff-id'); // Extract info from data-* attributes
+			// AJAX request to get staff data by ID
+			$.ajax({
+				url: '/Users/GetStaffData', // Change this to match your controller URL
+				type: 'GET',
+				data: { id: staffId },
+				success: function (data) {
+					// Log the received data to check if it's correct
+					console.log('Received data:', data);
+					// Set value for each input field in the modal
+					$('#txtEditName').val(data.Name);
+					$('#ddEditRole').val(data.Role);
+					$('#ddEditPosition').val(data.PositionID);
+					$('#txtEditEmail').val(data.Email);
+					$('#txtEditUsername').val(data.Username);
+					$('#editStaffId').val(staffId); // Set staff ID for form submission
+				},
+				error: function (xhr, status, error) {
+					// Handle error
+					console.error('Error:', error);
+				}
+			});
+		});
+	});
+</script>

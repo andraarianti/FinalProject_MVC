@@ -18,6 +18,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddScoped<IPositionBLL, PositionBLL>();
 builder.Services.AddScoped<IStaffBLL, StaffBLL>();
 builder.Services.AddScoped<ITripBLL, TripBLL>();
+builder.Services.AddScoped<IApprovalBLL, ApprovalBLL>();
 
 var app = builder.Build();
 

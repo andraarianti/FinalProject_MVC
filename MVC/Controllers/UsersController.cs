@@ -21,6 +21,11 @@ namespace MVC.Controllers
         {
             try
             {
+                //check if user is logged in
+                if (HttpContext.Session.GetString("Staff") == null)
+                {
+					return RedirectToAction("Login");
+				}
                 var staff = _staffBLL.GetAll();
                 var position = _positionBLL.GetAll();
                 var positionList = new SelectList(position, "PositionID", "PositionName");  
@@ -89,7 +94,29 @@ namespace MVC.Controllers
             }
         }
 
-        public IActionResult Delete(int id)
+		public IActionResult Logout()
+		{
+			HttpContext.Session.Remove("Staff");
+			return RedirectToAction("Login");
+		}
+
+		[HttpGet]
+		public IActionResult GetStaffData(int staffId)
+		{
+			try
+			{
+				var staffData = _staffBLL.GetById(staffId);
+				return Json(staffData); // Mengembalikan data staff dalam format JSON
+			}
+			catch (Exception ex)
+			{
+				// Handle error
+				return Json(new { error = ex.Message });
+			}
+		}
+
+
+		public IActionResult Delete(int id)
         {
             _staffBLL.Delete(id);
             return RedirectToAction("Index");

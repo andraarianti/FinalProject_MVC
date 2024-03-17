@@ -1,0 +1,110 @@
+﻿@{
+	ViewBag.Title = "Trip Report Detail";
+	var status = Model.Trip.Status.StatusName;
+}
+@model MVC.ViewModels.ExpenseByTripViewModels
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="card mb-4">
+			<div class="card-body">
+				<div class="mb-3 d-flex justify-content-between">
+					<div>
+						<strong>ID TRIP : #TRP-2024-</strong>
+						<span id="lblTripID">@Model.Trip.TripID</span>
+						<span class="badge rounded-pill bg-info text-white" id="lblStatus">@Model.Trip.Status.StatusName</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group mb-2">
+							<strong>Location : </strong>
+							<span id="lblLocation">@Model.Trip.Location</span>
+						</div>
+						<div class="form-group mb-2">
+							<strong>Total Expense: </strong>
+							<span id="lblTotalExpense">@Model.Trip.TotalCost</span>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group mb-2">
+							<strong>Start Date : </strong>
+							<span id="lblStartDate">@Model.Trip.StartDate</span>
+						</div>
+						<div class="form-group mb-2">
+							<strong>End Date : </strong>
+							<span id="lblEndDate">@Model.Trip.EndDate</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card mb-4">
+			<div class="card-body">
+				<div>
+					<strong>Expense Items</strong>
+				</div>
+				<br />
+				<div class="table-responsive">
+					<table id="default_order" class="table border table-striped table-bordered text-nowrap"
+						   style="width:100%">
+						<thead>
+							<tr>
+								<th>Expense ID</th>
+								<th>Expense Type</th>
+								<th>Item Cost</th>
+								<th>Description</th>
+								<th>Receipt Image</th>
+								<th>Approval</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							@{
+								@foreach (var expense in Model.Expenses)
+								{
+									<tr>
+										<td>@expense.ExpenseID</td>
+										<td>@expense.ExpenseType</td>
+										<td>@expense.ItemCost</td>
+										<td>@expense.Description</td>
+										<td>
+											<img src="~/ReceiptImages/@expense.ReceiptImage" width="60" />
+										</td>
+										<td>@expense.IsApproved</td>
+										<td>
+											@{
+												if(status != "Approved")
+												{
+													if (expense.IsApproved == true)
+													{
+														<a href="@Url.Action("Rejected", "Approval", new { expenseID = expense.ExpenseID })" class="btn btn-danger btn-rounded btn-sm">Rejected</a>																										
+													}
+													else
+													{
+														<a href="@Url.Action("Approved", "Approval", new { expenseID = expense.ExpenseID })" class="btn btn-success btn-rounded btn-sm">Approved</a>
+													}
+												}
+											}
+										</td>
+									</tr>
+								}
+							}
+						</tbody>
+					</table>
+				</div>
+				<br />
+				@* add button to change status trip to finished *@
+				<br/>
+				@if(status != "Approved")
+				{
+					<div class="d-flex justify-content-end">
+						<a href="@Url.Action("SubmitReport", "Approval", new { tripId = Model.Trip.TripID })" class="btn btn-success btn-rounded btn-md	">Submit Approval Report</a>
+					</div>
+				}
+			</div>
+		</div>
+
+	</div>
+</div>

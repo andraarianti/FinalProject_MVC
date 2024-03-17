@@ -8,7 +8,8 @@ namespace DAL.Interfaces
     public interface ITripDAL : ICrudDAL<Trip>
     {
         IEnumerable<Trip> GetTripByUserId(int staffID);
-        IEnumerable<Trip> GetTripWithExpense(int TripID);
+        IEnumerable<Trip> GetAllWithoutDrafted();
+		IEnumerable<Trip> GetTripWithExpense(int TripID);
         IEnumerable<Trip> GetTripWithAttendees(int TripID);
         Expense GetExpensesById(int ExpenseID);
         IEnumerable<Expense> GetTripWithExpenseByTripId(int TripID);

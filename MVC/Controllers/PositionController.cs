@@ -15,6 +15,11 @@ namespace MVC.Controllers
 		{
 			try
 			{
+				//Check Session
+				if (HttpContext.Session.GetString("Staff") == null)
+				{
+					return RedirectToAction("Login", "Users");
+				}
 				var positions = _positionBLL.GetAll();
 				return View(positions);
 			}
@@ -42,11 +47,11 @@ namespace MVC.Controllers
 			return RedirectToAction("Index");
 		}
 
-		public IActionResult Edit(int id)
+		public IActionResult Edit(PositionDTO positionDTO)
 		{
-			var position = _positionBLL.GetById(id);
-			return View(position);
-		}
+			_positionBLL.Update(positionDTO);
+            return RedirectToAction("Index");
+        }
 
 		public IActionResult Delete(int id)
 		{

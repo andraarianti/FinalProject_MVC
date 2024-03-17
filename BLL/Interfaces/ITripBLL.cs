@@ -9,6 +9,7 @@ namespace BLL.Interfaces
     {
         //Get Data
         IEnumerable<ReadTripDTO> GetAllWithStatus();
+        IEnumerable<ReadTripDTO> GetAllWithoutDrafted();
         ReadTripDTO GetByIdTrip(int id);
         IEnumerable<ReadTripDTO> GetTripByUserId(int id);
         IEnumerable<ReadTripDTO> GetTripWithExpense();

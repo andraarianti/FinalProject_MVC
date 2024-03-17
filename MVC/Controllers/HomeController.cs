@@ -15,7 +15,12 @@ namespace MVC.Controllers
 
         public IActionResult Index()
         {
-            return View();
+			//Check Session
+			if (HttpContext.Session.GetString("Staff") == null)
+			{
+				return RedirectToAction("Login", "Users");
+			}
+			return View();
         }
 
         public IActionResult Privacy()

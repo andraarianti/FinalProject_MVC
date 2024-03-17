@@ -292,5 +292,34 @@ namespace BLL
 
             return readTripDTOs;
         }
-    }
+
+		public IEnumerable<ReadTripDTO> GetAllWithoutDrafted()
+		{
+			List<ReadTripDTO> listTripDto = new List<ReadTripDTO>();
+			var tripList = _tripDAL.GetAllWithoutDrafted();
+			foreach (var trip in tripList)
+			{
+				listTripDto.Add(new ReadTripDTO
+				{
+					TripID = trip.TripID,
+					SubmittedBy = trip.SubmittedBy,
+					Location = trip.Location,
+					StartDate = trip.StartDate.Date,
+					EndDate = trip.EndDate.Date,
+					TotalCost = trip.TotalCost,
+					StatusID = trip.StatusID,
+					Status = new StatusDTO
+					{
+						StatusName = trip.Status.StatusName
+					},
+					Staff = new StaffDTO
+					{
+						Name = trip.Staff.Name,
+					}
+
+				});
+			}
+			return listTripDto;
+		}
+	}
 }

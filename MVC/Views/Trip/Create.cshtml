@@ -1,4 +1,6 @@
-﻿
+﻿@using BO
+@using Newtonsoft.Json
+
 <div class="container mt-5">
 	<h3 class="mb-4">
 		Add Trip Report</h2>
@@ -7,12 +9,25 @@
 			<!-- Trip Form -->
 			<div class="card">
 				<div class="card-header">
-					<h4>Trip Details</h4>
+					<h4>Add Trip Report</h4>
 				</div>
 				@Html.Raw(TempData["Message"])
 				<div class="card-body">
 					<div class="row">
 						<div class="col-md-12">
+							@if (ViewContext.HttpContext.Session.GetString("Staff") != null)
+							{
+								var staff = JsonConvert.DeserializeObject<Staff>(ViewContext.HttpContext.Session.GetString("Staff"));
+								var staffId = staff.StaffID;
+								var staffName = staff.Name;
+
+								<div class="form-group">
+									<label for="txtSubmittedBy">Submitted By:</label>
+									<input type="text" class="form-control" id="txtSubmittedBy" name="SubmittedBy" value="@staffId" hidden />
+									<input type="text" class="form-control" id="txtSubmittedBy" name="SubmittedBy" value="@staffName" disabled />
+								</div>
+							}
+							else{
 							<div class="form-group">
 								<label for="ddlSubmittedBy">Submitted By:</label>
 								<select class="form-control" id="ddlSubmittedBy" name="SubmittedBy">
@@ -23,6 +38,8 @@
 									}
 								</select>
 							</div>
+							}
+							
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
@@ -51,7 +68,7 @@
 					<h4>Expense Items</h4>
 				</div>
 				<div class="card-body">
-					<table class="table table-hover">
+					<table id="expenseItemsTable" class="table table-hover">
 						<thead>
 							<tr>
 								<th>Expense Type</th>
@@ -60,7 +77,7 @@
 								<th>Receipt Image</th>
 							</tr>
 						</thead>
-						<tbody id="expenseItemsTableBody" runat="server">
+						<tbody>
 							<tr>
 								<td>
 									<input type="text" class="form-control" name="ExpenseType" />
@@ -77,6 +94,7 @@
 							</tr>
 						</tbody>
 					</table>
+					<button type="button" class="btn btn-success" id="addExpenseItem">Add Expense Item</button>
 				</div>
 				<div class="card-footer">
 					<!-- Submit Buttons -->
@@ -86,3 +104,16 @@
 			</div>
 		</form>
 </div>
+
+<script>
+	document.getElementById("addExpenseItem").addEventListener("click", function () {
+		var table = document.getElementById("expenseItemsTable").getElementsByTagName("tbody")[0];
+		var row = table.insertRow();
+		row.innerHTML = `
+				<td><input type="text" class="form-control" name="ExpenseType" /></td>
+				<td><input type="number" class="form-control" name="ItemCost" /></td>
+				<td><input type="text" class="form-control" name="Description" /></td>
+				<td><input type="file" class="form-control" name="ReceiptImage" /></td>
+			`;
+	});
+</script>

@@ -1456,6 +1456,22 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\ReceiptImages\93ac2e0c-92bf-4871-828b-2a6641019823Nilai Certification.png))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\ReceiptImages\944326cd-9283-4cdc-a511-061e0731a1cc_NET-Axis-Site-12.5.22.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>MVC</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/MVC</BasePath>
+      <RelativePath>ReceiptImages/944326cd-9283-4cdc-a511-061e0731a1cc_NET-Axis-Site-12.5.22.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\ReceiptImages\944326cd-9283-4cdc-a511-061e0731a1cc_NET-Axis-Site-12.5.22.png))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\ReceiptImages\968319cb-a096-4c70-af48-a29e7b4b35edSQL_HACKERRANK.png))">
       <SourceType>Package</SourceType>
       <SourceId>MVC</SourceId>

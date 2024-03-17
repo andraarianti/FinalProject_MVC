@@ -16,6 +16,6 @@ namespace BLL.DTO
         public bool IsDeleted { get; set; }
         public bool IsApproved { get; set; }
 
-        public ReadTripDTO Trip { get; set; }
+        public CreateTripReportDTO Trip { get; set; }
     }
 }

@@ -19,7 +19,6 @@ namespace BLL.DTO
 
         public StatusDTO Status { get; set; }
         public StaffDTO Staff { get; set; }
-        public TripAttendeesDTO Attendees { get; set; }
         public ExpenseItemsDTO ExpenseItems { get; set; }
 
     }

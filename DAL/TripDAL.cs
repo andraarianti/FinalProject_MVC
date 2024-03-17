@@ -81,7 +81,54 @@ namespace DAL
             }
         }
 
-        public Trip GetById(int id)
+		public IEnumerable<Trip> GetAllWithoutDrafted()
+		{
+			using (SqlConnection conn = new SqlConnection(GetConnectionString()))
+			{
+				
+                var strSql = "SELECT t.*, s.StatusName, st.Name FROM BusinessTravel.Trip AS t JOIN BusinessTravel.Status As s ON t.StatusID = s.StatusID JOIN BusinessTravel.Staff As st ON t.SubmittedBy = st.StaffID WHERE t.IsDeleted = 0 AND t.StatusID != 1";
+                
+                try
+				{
+					List<Trip> trips = new List<Trip>();
+					SqlCommand cmd = new SqlCommand(strSql, conn);
+					conn.Open();
+					SqlDataReader dr = cmd.ExecuteReader();
+					if (dr.HasRows)
+					{
+						while (dr.Read())
+						{
+							var trip = new Trip()
+							{
+								TripID = Convert.ToInt32(dr["TripID"]),
+								SubmittedBy = Convert.ToInt32(dr["SubmittedBy"]),
+								StartDate = Convert.ToDateTime(dr["StartDate"]),
+								EndDate = Convert.ToDateTime(dr["EndDate"]),
+								Location = dr["Location"].ToString(),
+								StatusID = Convert.ToInt32(dr["StatusID"]),
+								TotalCost = Convert.ToDecimal(dr["TotalCost"]),
+								Staff = new Staff()
+								{
+									Name = dr["Name"].ToString()
+								},
+								Status = new Status()
+								{
+									StatusName = dr["StatusName"].ToString()
+								}
+							};
+							trips.Add(trip);
+						}
+					}
+					return trips;
+				}
+				catch (Exception ex)
+				{
+					throw new Exception("Error GetAllTrip DAL: " + ex.Message);
+				}
+			}
+		}
+
+		public Trip GetById(int id)
         {
             using (SqlConnection conn = new SqlConnection(GetConnectionString()))
             {
