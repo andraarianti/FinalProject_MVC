@@ -10,5 +10,8 @@ namespace DAL.Interfaces
         IEnumerable<Staff> GetByName(string name);
         //Function to Login
         Staff Login(string username, string password);
+
+        //Dashboard
+        int CardTotalEmployee();
     }
 }

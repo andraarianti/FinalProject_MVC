@@ -19,5 +19,8 @@ namespace BLL.Interfaces
 
         StaffDTO LoginMVC(LoginDTO loginDTO);
 
+        //Dashboard
+        int CardTotalEmployee();
+
     }
 }

@@ -1,0 +1,51 @@
+﻿@model BLL.DTO.StaffDTO
+
+<style>
+	.profile-card {
+		max-width: 400px;
+		margin: auto;
+		background: #f9f9f9;
+		padding: 20px;
+		border-radius: 10px;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	}
+
+	.profile-icon {
+		font-size: 60px;
+		color: #007bff;
+	}
+
+	.profile-label {
+		font-size: 20px;
+		color: #333;
+	}
+
+	.profile-value {
+		font-size: 18px;
+		color: #777;
+	}
+</style>
+
+<div class="container mt-5">
+	<div class="profile-card">
+		<div class="text-center">
+			<i class="fas fa-user-circle profile-icon"></i>
+		</div>
+		<div class="mt-3">
+			<div class="profile-label">Name:</div>
+			<div class="profile-value">@Model.Name</div>
+		</div>
+		<div class="mt-3">
+			<div class="profile-label">Email:</div>
+			<div class="profile-value">@Model.Email</div>
+		</div>
+		<div class="mt-3">
+			<div class="profile-label">Username:</div>
+			<div class="profile-value">@Model.Username</div>
+		</div>
+		<div class="mt-3">
+			<div class="profile-label">Role:</div>
+			<div class="profile-value">@Model.Role</div>
+		</div>
+	</div>
+</div>

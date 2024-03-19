@@ -1,0 +1,66 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model BLL.DTO.StaffDTO
+
+<div class="container-fluid">
+
+	<div class="row">
+		<div class="card-header">
+			<h5 class="card-title">Edit Expense Items</h5>
+		</div>
+		<div class="card-body">
+			<form method="post" action="Edit">
+				<input type="hidden" name="StaffID" value="@Model.StaffID" />
+				<input type="hidden" name="PositionID" value="@Model.PositionID" />
+
+				<div class="form-group">
+					<label for="txtName" class="form-label">Staff Name</label>
+					<input type="text" class="form-control" id="txtName" required name="Name" value="@Model.Name">
+				</div>
+
+				<div class="form-group">
+					<label for="txtRole" class="form-label">Role</label>
+					<select class="form-select" id="txtRole" required name="Role">
+						<option value="Admin" selected='@(Model.Role == "Admin")'>Admin</option>
+						<option value="Approver" selected='@(Model.Role == "Approver")'>Approver</option>
+						<option value="Requestor" selected='@(Model.Role == "Requestor")'>Requestor</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="ddRole" class="form-label">Position</label>
+					<select class="form-select" id="ddRole" required name="PositionID">
+						<option value="">Select Role</option>
+						@foreach (var item in ViewBag.Positions)
+						{
+							<option value="@item.PositionID">
+								@item.PositionName
+								@if (item.PositionID == Model.PositionID)
+								{
+									<text>selected</text>
+								}
+							</option>
+						}
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="txtUsername" class="form-label">Username</label>
+					<input type="text" class="form-control" id="txtUsername" required name="Username" value="@Model.Username">
+				</div>
+
+				<div class="form-group">
+					<label for="txtEmail" class="form-label">Email</label>
+					<input type="text" class="form-control" id="txtEmail" required name="Email" value="@Model.Email">
+				</div>
+				<div class="card-footer text-end">
+					<button type="submit" class="btn btn-primary">Save</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+</div>

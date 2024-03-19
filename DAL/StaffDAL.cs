@@ -183,5 +183,28 @@ namespace DAL
         {
             throw new NotImplementedException();
         }
-    }
+
+		public int CardTotalEmployee()
+		{
+			int totalEmployee = 0;
+
+			using (SqlConnection conn = new SqlConnection(GetConnectionString()))
+			{
+				var strSql = "BusinessTravel.DashboardTotalEmployee";
+				try
+				{
+					conn.Open();
+					SqlCommand cmd = new SqlCommand(strSql, conn);
+					cmd.CommandType = CommandType.StoredProcedure;
+					totalEmployee = (int)cmd.ExecuteScalar(); // Mengambil hasil menggunakan ExecuteScalar
+				}
+				catch (Exception ex)
+				{
+					throw new Exception("Error retrieving total employee from database: " + ex.Message);
+				}
+			}
+
+			return totalEmployee;
+		}
+	}
 }

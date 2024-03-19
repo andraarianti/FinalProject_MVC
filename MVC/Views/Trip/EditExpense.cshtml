@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Edit Expense";
+}
+@model BLL.DTO.ExpenseItemsDTO
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">Edit Expense Items</h5>
+    </div>
+    <div class="card-body">
+        <form method="post" action="EditExpense" enctype="multipart/form-data">
+            <input type="hidden" name="TripID" value="@Model.TripID" />
+            <input type="hidden" name="ExpenseID" id="editExpenseID" value="@Model.ExpenseID">
+
+            <div class="mb-3">
+                <label for="txtExpenseType" class="form-label">Expense Type</label>
+                <input type="text" class="form-control" id="txtExpenseType" required value="@Model.ExpenseType" name="ExpenseType">
+            </div>
+
+            <div class="mb-3">
+                <label for="txtDescription" class="form-label">Description</label>
+                <input type="text" class="form-control" id="txtDescription" required value="@Model.Description" name="Description">
+            </div>
+
+            <div class="mb-3">
+                <label for="txtItemCost" class="form-label">Item Cost</label>
+                <input type="number" class="form-control" id="txtTotalCost" required value="@Model.ItemCost" name="ItemCost">
+            </div>
+
+            <div class="mb-3">
+                <label for="imageInput" class="form-label">Upload Image</label>
+                <img src="@Model.ReceiptImage" class="img-fluid img-thumbnail" alt="Receipt Image">
+                <input type="file" class="form-control" id="imageInput" name="ReceiptImage">
+            </div>
+            <div class="card-footer text-end">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+   
+</div>

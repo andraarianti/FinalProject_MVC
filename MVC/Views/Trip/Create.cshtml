@@ -53,67 +53,18 @@
 								<input type="date" class="form-control" id="txtEndDate" name="EndDate" />
 							</div>
 						</div>
+						<input type="text" class="form-control" id="txtTotalCost" name="TotalCost" value=0 hidden />
 					</div>
 					<div class="form-group">
 						<label for="txtLocation">Location:</label>
 						<input type="text" class="form-control" id="txtLocation" name="Location" />
 					</div>
 				</div>
-			</div>
-			<hr />
-
-			<!-- Expense Items Section -->
-			<div class="card mt-4">
-				<div class="card-header">
-					<h4>Expense Items</h4>
-				</div>
-				<div class="card-body">
-					<table id="expenseItemsTable" class="table table-hover">
-						<thead>
-							<tr>
-								<th>Expense Type</th>
-								<th>Item Cost</th>
-								<th>Description</th>
-								<th>Receipt Image</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>
-									<input type="text" class="form-control" name="ExpenseType" />
-								</td>
-								<td>
-									<input type="number" class="form-control" name="ItemCost" />
-								</td>
-								<td>
-									<input type="text" class="form-control" name="Description" />
-								</td>
-								<td>
-									<input type="file" class="form-control" name="ReceiptImage" />
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<button type="button" class="btn btn-success" id="addExpenseItem">Add Expense Item</button>
-				</div>
 				<div class="card-footer">
 					<!-- Submit Buttons -->
-					<button type="submit" class="btn btn-primary" name="submitButton" value="reimbursement">Submit for Reimbursement</button>
-					<button type="submit" class="btn btn-primary" name="submitButton" value="draft">Save as Draft</button>
+					<button type="submit" class="btn btn-primary" name="submitButton" value="addTrip">Add Trip</button>
 				</div>
 			</div>
+			<hr />
 		</form>
 </div>
-
-<script>
-	document.getElementById("addExpenseItem").addEventListener("click", function () {
-		var table = document.getElementById("expenseItemsTable").getElementsByTagName("tbody")[0];
-		var row = table.insertRow();
-		row.innerHTML = `
-				<td><input type="text" class="form-control" name="ExpenseType" /></td>
-				<td><input type="number" class="form-control" name="ItemCost" /></td>
-				<td><input type="text" class="form-control" name="Description" /></td>
-				<td><input type="file" class="form-control" name="ReceiptImage" /></td>
-			`;
-	});
-</script>

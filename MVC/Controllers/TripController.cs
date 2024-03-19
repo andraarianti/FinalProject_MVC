@@ -25,7 +25,6 @@ namespace MVC.Controllers
 		{
 			try
 			{
-
 				//Check Session
 				if (HttpContext.Session.GetString("Staff") == null)
 				{
@@ -83,77 +82,21 @@ namespace MVC.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Create(CreateTripReportDTO tripDTO, List<ExpenseItemsDTO> expenseItemsDTO, string submitButton, IFormFile ReceiptImage)
+		public IActionResult Create(CreateTripReportDTO tripDTO, string submitButton)
 		{
-			if (submitButton == "reimbursement")
+			if (submitButton == "addTrip")
 			{
-				if (ReceiptImage != null)
-				{
-					if (BLL.Helper.IsImageFile(ReceiptImage.FileName))
-					{
-						//random file name based on GUID
-						var fileName = $"{Guid.NewGuid()}_{ReceiptImage.FileName}";
-						var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ReceiptImages", fileName);
-						foreach (var expenseItems in expenseItemsDTO)
-						{
-							expenseItems.ReceiptImage = fileName;
-						}
-						//Insialisasi Status pada TripDTO
-						tripDTO.StatusID = 2; // 1 = Draft
-						_tripBLL.CreateTrip(tripDTO, expenseItemsDTO);
+				//Insialisasi Status pada TripDTO
+				tripDTO.StatusID = 1;
+				tripDTO.TotalCost = 0;
+				_tripBLL.CreateTripReport(tripDTO);
 
-						//copy file ke folder
-						using (var fileStream = new FileStream(filePath, FileMode.Create))
-						{
-							ReceiptImage.CopyTo(fileStream);
-						}
-						TempData["Message"] = @"<div class='alert alert-success'><strong>Success!&nbsp;</strong>TripReport has been submitted successfully !</div>";
-						return RedirectToAction("Index");
-					}
-					else
-					{
-						TempData["Message"] = @"<div class='alert alert-danger'><strong>Error!&nbsp;</strong>File is not an image file !</div>";
-						return RedirectToAction("Create");
-					}
-					
-				}
+				var id = _tripBLL.GetAllWithStatus().Last().TripID;
 
-				
+				TempData["Message"] = @"<div class='alert alert-success'><strong>Success!&nbsp;</strong>TripReport has ben create!</div>";
+				//return RedirectToAction("Index");
+				return RedirectToAction("Detail", new { TripID = id });
 			}
-			else if (submitButton == "draft")
-			{
-				if (ReceiptImage != null)
-				{
-					if (BLL.Helper.IsImageFile(ReceiptImage.FileName))
-					{
-						//random file name based on GUID
-						var fileName = $"{Guid.NewGuid()}_{ReceiptImage.FileName}";
-						var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ReceiptImages", fileName);
-						foreach (var expenseItems in expenseItemsDTO)
-						{
-							expenseItems.ReceiptImage = fileName;
-						}
-						//Insialisasi Status pada TripDTO
-						tripDTO.StatusID = 1; // 1 = Draft
-						_tripBLL.CreateTrip(tripDTO, expenseItemsDTO);
-
-						//copy file ke folder
-						using (var fileStream = new FileStream(filePath, FileMode.Create))
-						{
-							ReceiptImage.CopyTo(fileStream);
-						}
-						TempData["Message"] = @"<div class='alert alert-success'><strong>Success!&nbsp;</strong>TripReport has been added successfully !</div>";
-						return RedirectToAction("Index");
-					}
-					else
-					{
-						TempData["Message"] = @"<div class='alert alert-danger'><strong>Error!&nbsp;</strong>File is not an image file !</div>";
-						return RedirectToAction("Create");
-					}
-				}
-				return RedirectToAction("Index");
-			}
-
 			// Jika submitButton tidak sesuai dengan kondisi di atas, maka kembalikan view default
 			TempData["Message"] = @"<div class='alert alert-danger'><strong>Error!&nbsp;</strong>Submit Button is not valid !</div>";
 			return View("Create");
@@ -165,13 +108,13 @@ namespace MVC.Controllers
 			TempData["Message"] = @"<div class='alert alert-success'><strong>Success!&nbsp;</strong>TripReport has been deleted successfully !</div>";
 			return RedirectToAction("Index");
 		}
-		
+
 		public IActionResult DeleteExpense(int id)
 		{
 			//Set Expense DTO
 			ExpenseItemsDTO expense = new ExpenseItemsDTO();
 			expense.ExpenseID = id;
-			expense.TripID = (int) TempData["TripID"];
+			expense.TripID = (int)TempData["TripID"];
 			_tripBLL.DeleteExpense(expense);
 			TempData["Message"] = @"<div class='alert alert-success'><strong>Success!&nbsp;</strong>Expense has been deleted successfully !</div>";
 			return RedirectToAction("Detail", new { TripID = expense.TripID });
@@ -209,6 +152,55 @@ namespace MVC.Controllers
 			TempData["Message"] = @"<div class='alert alert-danger'><strong>Error!&nbsp;</strong>File is not an image file !</div>";
 			return RedirectToAction("Detail", new { TripID = expense.TripID });
 
+		}
+
+		public IActionResult SubmitReimburse(int id)
+		{
+			CreateTripReportDTO trip = new CreateTripReportDTO();
+			trip.TripID = id;
+			trip.StatusID = 2; //In Progress
+			_tripBLL.ClaimReimbursmnt(trip);
+			TempData["Message"] = @"<div class='alert alert-success'><strong>Success!&nbsp;</strong>Reimbursement has been submitted successfully !</div>";
+			return RedirectToAction("Index");
+		}
+
+		public IActionResult Edit(int id)
+		{
+
+			return Json(_tripBLL.GetExpenseByExpenseID(id));
+		}
+
+		public IActionResult EditExpense(ExpenseItemsDTO expense, IFormFile ReceiptImage)
+		{
+			if (ReceiptImage != null)
+			{
+				if (BLL.Helper.IsImageFile(ReceiptImage.FileName))
+				{
+					//random file name based on GUID
+					var fileName = $"{Guid.NewGuid()}_{ReceiptImage.FileName}";
+					var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ReceiptImages", fileName);
+					expense.ReceiptImage = fileName;
+
+					_tripBLL.UpdateExpense(expense);
+
+					//copy file ke folder
+					using (var fileStream = new FileStream(filePath, FileMode.Create))
+					{
+						ReceiptImage.CopyTo(fileStream);
+					}
+					TempData["Message"] = @"<div class='alert alert-success'><strong>Success!&nbsp;</strong>Expense has been updated successfully !</div>";
+					return RedirectToAction("Detail", new { TripID = expense.TripID });
+
+				}
+				else
+				{
+					TempData["Message"] = @"<div class='alert alert-danger'><strong>Error!&nbsp;</strong>File is not an image file !</div>";
+					return RedirectToAction("Detail", new { TripID = expense.TripID });
+
+				}
+			}
+			TempData["Message"] = @"<div class='alert alert-danger'><strong>Error!&nbsp;</strong>File is not an image file !</div>";
+			return RedirectToAction("Detail", new { TripID = expense.TripID });
 		}
 	}
 

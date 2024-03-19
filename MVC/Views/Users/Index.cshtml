@@ -3,7 +3,7 @@
 <div class="container-fluid">
 	<div class="card">
 		<div class="card-header">
-			<h5 class="card-title fw-semibold">Position Page</h5>
+			<h5 class="card-title fw-semibold">Staff Page</h5>
 		</div>
 		<div class="card-body">
 			<button type="button" class="btn btn-success" data-bs-toggle="modal"
@@ -31,10 +31,9 @@
 						<td>@item.Role</td>
 						<td>@item.Email</td>
 						<td>
-							<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editStaffModal" id="btnOpenEditStaffModal" data-staff-id="@item.StaffID">
-								Edit Staff
-							</button>
-							<a asp-action="Delete" onclick="return confirm('Are you sure you want to delete this position ?')" asp-route-id="@item.StaffID" class="btn btn-danger btn-sm">Delete</a>
+							<a href="#" id="btnEdit" class="btn btn-rounded btn-outline-warning btn-sm" data-bs-toggle="modal" data-bs-target="#MyPopup" data-id="@item.StaffID">Edit</a>
+							@* <a asp-action="Edit" asp-route-id="@item.StaffID" class="btn btn-info btn-sm">Edit</a> *@
+							<a asp-action="Delete" onclick="return confirm('Are you sure you want to delete this position ?')" asp-route-id="@item.StaffID" class="btn btn-rounded btn-outline-danger btn-sm">Delete</a>
 						</td>
 					</tr>
 				}
@@ -104,36 +103,35 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<!-- Edit Staff Modal -->
-<div id="editStaffModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+
+
+
+<div class="modal fade" id="MyPopup" tabindex="-1" aria-labelledby="MyPopupLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title mt-0" id="editStaffModalLabel">Edit Staff</h5>
+				<h5 class="modal-title" id="MyPopupLabel">Edit Staff</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<form id="editStaffForm" method="post" action="/Users/Edit">
-					<div class="mb-3">
-						<label for="staffId" class="form-label">StaffID</label>
-						<input type="text" class="form-control" id="staffId" disabled name="StaffID">
+				<form id="editStaffForm" action="@Url.Action("Edit", "Users")" method="post">
+					<input type="hidden" name="StaffID" id="txtIdEdit" class="form-control" readonly />
+					<div class="form-group">
+						<label for="txtNameEdit">Name:</label>
+						<input type="text" id="txtNameEdit" name="Name" class="form-control" />
 					</div>
-					<div class="mb-3">
-						<label for="txtEditName" class="form-label">Name</label>
-						<input type="text" class="form-control" id="txtEditName" required placeholder="Enter your Name" name="Name">
-					</div>
-					<div class="mb-3">
-						<label for="ddEditRole" class="form-label">Role</label>
-						<select class="form-select" id="ddEditRole" name="Role">
+					<div class="form-group">
+						<label for="ddRoleEdit">Role:</label>
+						<select id="ddRoleEdit" name="Role" class="form-control">
 							<option value="">-----Select Role----</option>
 							<option value="Admin">Admin</option>
 							<option value="Approver">Approver</option>
 							<option value="Requestor">Requestor</option>
 						</select>
 					</div>
-					<div class="mb-3">
-						<label for="ddEditPosition" class="form-label">Position</label>
-						<select class="form-select" id="ddEditPosition" name="PositionID">
+					<div class="form-group">
+						<label for="ddPositionEdit">Position:</label>
+						<select id="ddPositionEdit" name="PositionID" class="form-control">
 							<option value="">-----Select Position----</option>
 							@foreach (var item in ViewBag.Positions)
 							{
@@ -141,50 +139,51 @@
 							}
 						</select>
 					</div>
-					<div class="mb-3">
-						<label for="txtEditEmail" class="form-label">Email address</label>
-						<input type="email" class="form-control" id="txtEditEmail" required placeholder="Enter your Email Address" name="Email">
+					<div class="form-group">
+						<label for="txtEmailEdit">Email:</label>
+						<input type="email" id="txtEmailEdit" name="Email" class="form-control" />
 					</div>
-					<div class="mb-3">
-						<label for="txtEditUsername" class="form-label">Username</label>
-						<input type="text" class="form-control" id="txtEditUsername" required placeholder="Enter your Username" name="Username">
+					<div class="form-group">
+						<label for="txtUsernameEdit">Username:</label>
+						<input type="text" id="txtUsernameEdit" name="Username" class="form-control" />
 					</div>
-					<div class="text-center">
-						<input type="hidden" id="editStaffId" name="StaffId">
-						<button type="submit" class="btn btn-primary">Save</button>
-					</div>
+					<br />
+					<button type="submit" class="btn btn-success">Save</button>
 				</form>
 			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+		</div>
+	</div>
+</div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-	$(document).ready(function () {
-		$('#editStaffModal').on('show.bs.modal', function (event) {
-			var button = $(event.relatedTarget); // Button that triggered the modal
-			var staffId = button.data('staff-id'); // Extract info from data-* attributes
-			// AJAX request to get staff data by ID
+	$(function () {
+		$("body").on('click', '#btnEdit', function () {
+			var staffId = $(this).attr('data-id');
+
 			$.ajax({
-				url: '/Users/GetStaffData', // Change this to match your controller URL
-				type: 'GET',
+				url: 'Users/GetStaffData',
 				data: { id: staffId },
-				success: function (data) {
-					// Log the received data to check if it's correct
-					console.log('Received data:', data);
-					// Set value for each input field in the modal
-					$('#txtEditName').val(data.Name);
-					$('#ddEditRole').val(data.Role);
-					$('#ddEditPosition').val(data.PositionID);
-					$('#txtEditEmail').val(data.Email);
-					$('#txtEditUsername').val(data.Username);
-					$('#editStaffId').val(staffId); // Set staff ID for form submission
-				},
-				error: function (xhr, status, error) {
-					// Handle error
-					console.error('Error:', error);
+				type: 'POST',
+				success: function (response) {
+					$('#txtIdEdit').val(response.staffID);
+					$('#txtNameEdit').val(response.name);
+					$('#ddRoleEdit').val(response.role);
+
+					// Menyetel nilai 'selected' pada opsi dropdown Position
+					$('#ddPositionEdit').val(response.positionsID);
+
+					// Menetapkan nilai 'selected' pada opsi dropdown Role
+					$('#ddRoleEdit').find('option[value="' + response.role + '"]').attr('selected', 'selected');
+
+					// Menetapkan nilai 'selected' pada opsi dropdown Position
+					$('#ddPositionEdit').find('option[value="' + response.positionID + '"]').attr('selected', 'selected');
+					$('#txtEmailEdit').val(response.email);
+					$('#txtUsernameEdit').val(response.username);
+					$("#MyPopup").modal("show");
 				}
 			});
 		});
 	});
 </script>
+

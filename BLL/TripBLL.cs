@@ -196,12 +196,15 @@ namespace BLL
             {
                 ExpenseItemsDTO expense = new ExpenseItemsDTO();
                 var expenseEntity = _tripDAL.GetExpensesById(id);
-                expense.ExpenseID = expenseEntity.ExpenseID;
-                expense.TripID = expenseEntity.TripID;
-                expense.ExpenseType = expenseEntity.ExpenseType;
-                expense.ItemCost = expenseEntity.ItemCost;
-                expense.Description = expenseEntity.Description;
-                expense.ReceiptImage = expenseEntity.ReceiptImage;
+                if(expenseEntity != null)
+                {
+					expense.ExpenseID = expenseEntity.ExpenseID;
+					expense.TripID = expenseEntity.TripID;
+					expense.ExpenseType = expenseEntity.ExpenseType;
+					expense.ItemCost = expenseEntity.ItemCost;
+					expense.Description = expenseEntity.Description;
+					expense.ReceiptImage = expenseEntity.ReceiptImage;
+				}
                 return expense;
             }
             catch (Exception ex)
@@ -297,6 +300,66 @@ namespace BLL
 		{
 			List<ReadTripDTO> listTripDto = new List<ReadTripDTO>();
 			var tripList = _tripDAL.GetAllWithoutDrafted();
+			foreach (var trip in tripList)
+			{
+				listTripDto.Add(new ReadTripDTO
+				{
+					TripID = trip.TripID,
+					SubmittedBy = trip.SubmittedBy,
+					Location = trip.Location,
+					StartDate = trip.StartDate.Date,
+					EndDate = trip.EndDate.Date,
+					TotalCost = trip.TotalCost,
+					StatusID = trip.StatusID,
+					Status = new StatusDTO
+					{
+						StatusName = trip.Status.StatusName
+					},
+					Staff = new StaffDTO
+					{
+						Name = trip.Staff.Name,
+					}
+
+				});
+			}
+			return listTripDto;
+		}
+
+        public void CreateTripReport(CreateTripReportDTO createTripReportDTO)
+        {
+            try
+            {
+                var tripentity = new Trip()
+                {
+                    SubmittedBy = createTripReportDTO.SubmittedBy,
+                    Location = createTripReportDTO.Location,
+                    StartDate = createTripReportDTO.StartDate,
+                    EndDate = createTripReportDTO.EndDate,
+                    TotalCost = createTripReportDTO.TotalCost,
+                    StatusID = createTripReportDTO.StatusID,
+                };
+                _tripDAL.Insert(tripentity);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public decimal CardTotalExpense()
+        {
+            return _tripDAL.CardTotalExpense();
+        }
+
+		public int CardTotalApprovalRequest()
+		{
+			return _tripDAL.CardTotalApprovalRequest();
+		}
+
+		public IEnumerable<ReadTripDTO> GetAllOnlyInProgress()
+		{
+			List<ReadTripDTO> listTripDto = new List<ReadTripDTO>();
+			var tripList = _tripDAL.GetAllOnlyInProgress();
 			foreach (var trip in tripList)
 			{
 				listTripDto.Add(new ReadTripDTO

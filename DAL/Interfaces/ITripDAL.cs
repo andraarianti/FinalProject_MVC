@@ -9,6 +9,7 @@ namespace DAL.Interfaces
     {
         IEnumerable<Trip> GetTripByUserId(int staffID);
         IEnumerable<Trip> GetAllWithoutDrafted();
+		IEnumerable<Trip> GetAllOnlyInProgress();
 		IEnumerable<Trip> GetTripWithExpense(int TripID);
         IEnumerable<Trip> GetTripWithAttendees(int TripID);
         Expense GetExpensesById(int ExpenseID);
@@ -24,5 +25,9 @@ namespace DAL.Interfaces
 
         //Delete Data
         void DeleteExpense(Expense expense);
+
+        //Dashboard Card
+        decimal CardTotalExpense();
+        int CardTotalApprovalRequest();
     }
 }

@@ -16,7 +16,7 @@
 	<meta name="author" content="">
 	<!-- Favicon icon -->
 	<link rel="icon" type="image/png" sizes="16x16" href="../src/assets/images/favicon.png">
-	<title>Freedash Template - The Ultimate Multipurpose admin template</title>
+	<title>Xpense - Business Trip Report</title>
 	<!-- Custom CSS -->
 	<link href="../src/assets/extra-libs/c3/c3.min.css" rel="stylesheet">
 	<link href="../src/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
@@ -61,7 +61,7 @@
 					<!-- ============================================================== -->
 					<div class="navbar-brand">
 						<!-- Logo icon -->
-						<a href="index.html">
+						<a href="@Url.Action("Index", "Home")">
 							<img src="../src/assets/images/freedashDark.svg" alt="" class="img-fluid">
 						</a>
 					</div>
@@ -225,7 +225,7 @@
 								@if (ViewContext.HttpContext.Session.GetString("Staff") != null)
 								{
 									var staff = JsonConvert.DeserializeObject<Staff>(ViewContext.HttpContext.Session.GetString("Staff"));
-									<a class="dropdown-item" href="javascript:void(0)">
+									<a class="dropdown-item" href="@Url.Action("Profile","Users")">
 										<i data-feather="user"
 										   class="svg-icon me-2 ms-1"></i>
 										My Profile
@@ -242,13 +242,6 @@
 										   class="svg-icon me-2 ms-1"></i>
 										Logout
 									</a>
-									<div class="dropdown-divider"></div>
-									<div class="pl-4 p-3">
-										<a href="javascript:void(0)" class="btn btn-sm btn-info">
-											View
-											Profile
-										</a>
-									</div>
 								}
 							</div>
 						</li>
@@ -300,7 +293,7 @@
 								<li class="sidebar-item">
 									<a class="sidebar-link" asp-action="Index" asp-controller="Users"
 									   aria-expanded="false">
-										<i data-feather="tag" class="feather-icon"></i><span class="hide-menu">
+										<i data-feather="users" class="feather-icon"></i><span class="hide-menu">
 											Staff
 										</span>
 									</a>
@@ -308,7 +301,7 @@
 								<li class="sidebar-item">
 									<a class="sidebar-link" asp-action="Index" asp-controller="Trip"
 									   aria-expanded="false">
-										<i data-feather="tag" class="feather-icon"></i><span class="hide-menu">
+										<i data-feather="map-pin" class="feather-icon"></i><span class="hide-menu">
 											Trip
 										</span>
 									</a>
@@ -316,7 +309,7 @@
 								<li class="sidebar-item">
 									<a class="sidebar-link" asp-action="Index" asp-controller="Approval"
 									   aria-expanded="false">
-										<i data-feather="tag" class="feather-icon"></i><span class="hide-menu">
+										<i data-feather="check-circle" class="feather-icon"></i><span class="hide-menu">
 											Approval
 										</span>
 									</a>
@@ -331,7 +324,7 @@
 								<li class="sidebar-item">
 									<a class="sidebar-link" asp-action="Index" asp-controller="Trip"
 									   aria-expanded="false">
-										<i data-feather="tag" class="feather-icon"></i><span class="hide-menu">
+										<i data-feather="map-pin" class="feather-icon"></i><span class="hide-menu">
 											Trip
 										</span>
 									</a>
@@ -339,7 +332,7 @@
 								<li class="sidebar-item">
 									<a class="sidebar-link" asp-action="Index" asp-controller="Approval"
 									   aria-expanded="false">
-										<i data-feather="tag" class="feather-icon"></i><span class="hide-menu">
+										<i data-feather="check-circle" class="feather-icon"></i><span class="hide-menu">
 											Approval
 										</span>
 									</a>
@@ -353,7 +346,7 @@
 								<li class="sidebar-item">
 									<a class="sidebar-link" asp-action="Index" asp-controller="Trip"
 									   aria-expanded="false">
-										<i data-feather="tag" class="feather-icon"></i><span class="hide-menu">
+										<i data-feather="map-pin" class="feather-icon"></i><span class="hide-menu">
 											Trip
 										</span>
 									</a>
@@ -382,15 +375,6 @@
 			</div>
 			<!-- ============================================================== -->
 			<!-- End Container fluid  -->
-			<!-- ============================================================== -->
-			<!-- ============================================================== -->
-			<!-- footer -->
-			<!-- ============================================================== -->
-			<footer class="footer text-center text-muted">
-				All Rights Reserved by Freedash. Designed and Developed by <a href="https://adminmart.com/">Adminmart</a>.
-			</footer>
-			<!-- ============================================================== -->
-			<!-- End footer -->
 			<!-- ============================================================== -->
 		</div>
 		<!-- ============================================================== -->

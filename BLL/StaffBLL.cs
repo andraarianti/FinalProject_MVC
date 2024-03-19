@@ -16,7 +16,12 @@ namespace BLL
             _staffDAL = new StaffDAL();
         }
 
-        public void Delete(int id)
+		public int CardTotalEmployee()
+		{
+			return _staffDAL.CardTotalEmployee();
+		}
+
+		public void Delete(int id)
         {
             if (id <= 0)
             {
